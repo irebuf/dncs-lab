@@ -6,5 +6,5 @@ add-apt-repository "deb [arch=amd64] https://apps3.cumulusnetworks.com/repos/deb
 apt-get update
 apt-get install -y frr --assume-yes --force-yes
 ip link set dev eth1 up
-ip add 192.168.172.230/30 dev eth1
+ip add add 192.168.172.230/30 dev eth1
 ip link set eth1 up
