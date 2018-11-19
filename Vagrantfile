@@ -49,12 +49,12 @@ Vagrant.configure("2") do |config|
     hostb.vm.box = "minimal/trusty64"
     hostb.vm.hostname = "host-1-b"
     hostb.vm.network "private_network", virtualbox__intnet: "broadcast_host_b", auto_config: false
-    hostb.vm.provision "shell", path: "docker.sh"
+    hostb.vm.provision "shell", path: "docker-1b.sh"
   end
   config.vm.define "host-2-c" do |hostc|
     hostc.vm.box = "minimal/trusty64"
     hostc.vm.hostname = "host-2-c"
     hostc.vm.network "private_network", virtualbox__intnet: "broadcast_router-south-2", auto_config: false
-    hostc.vm.provision "shell", path: "docker.sh"
+    hostc.vm.provision "shell", path: "docker-2c.sh"
   end
 end
