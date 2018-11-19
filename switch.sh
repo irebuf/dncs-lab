@@ -9,3 +9,4 @@ ovs-vsctl add-port switch eth3 tag=171
 ip link set dev eth1 up
 ip link set dev eth2 up
 ip link set dev eth3 up
+ip link set ovs-system up
