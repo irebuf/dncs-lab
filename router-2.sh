@@ -8,3 +8,4 @@ apt-get install -y frr --assume-yes --force-yes
 ip link set dev eth1 up
 ip add add 192.168.172.230/30 dev eth1
 ip link set eth1 up
+sysctl net.ipv4.ip_forward=1
