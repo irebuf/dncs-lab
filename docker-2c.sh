@@ -16,7 +16,7 @@ apt-get install \ apt-transport-https \ ca-certificates \ curl \ software-proper
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 apt-get update
-apt-get install docker-ce
+apt-get install docker-ce  --assume-yes --force-yes
 mkdir -p ~/docker-nginx/html
 cd ~/docker-nginx/html
 touch index.html
@@ -34,7 +34,7 @@ echo "<!DOCTYPE html>
 </style>
 </head>
 <body>
-<h1> Welcome on TastoLesto’s page!</h1>
+<h1> Welcome on our page!</h1>
 <p>Irene Buffa [185151]<br>Daniele Mattedi [186778]</p>
 
 
