@@ -1,10 +1,12 @@
 export DEBIAN_FRONTEND=noninteractive
-apt-get install -y apt-transport-https ca-certificates curl software-properties-common --assume-yes --force-yes
-apt-get curl --assume-yes --force-yes
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-apt-get update
-apt-get install -y docker-ce --assume-yes --force-yes
+
+apt-get update --assume-yes --force-yes
+apt-get install apt-transport-https --assume-yes --force-yes
+apt-get install ca-certificates --assume-yes --force-yes
+apt-get install curl --assume-yes --force-yes
+apt-get install software-properties-common --assume-yes --force-yes
+
+
 
 ip link set dev eth1 up
 ip add add 192.168.171.225/27 dev eth1
