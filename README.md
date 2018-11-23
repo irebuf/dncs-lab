@@ -80,9 +80,9 @@ host-b                    running (virtualbox)
 `vagrant ssh host-b`
 
 
-#Assigment
+# Assigment
 Based the `Vagrantfile` and the provisioning scripts available at:
-[https://github.com/dustnic/dncs-lab] (https://github.com/dustnic/dncs-lab) the candidate is required to design a functioning network where
+https://github.com/dustnic/dncs-lab the candidate is required to design a functioning network where
 any host configured and attached to `router-1` (through `switch` ) can browse a website hosted on
 `host-2-c`.
 
