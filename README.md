@@ -46,12 +46,7 @@ This repository contains the Vagrant files required to run the virtual lab envir
 
 ```
 
-# Requirements
- - 10GB disk storage
- - 2GB free RAM
- - Virtualbox
- - Vagrant (https://www.vagrantup.com)
- - Internet
+
 
 # How-to
  - Install Virtualbox and Vagrant
@@ -91,3 +86,13 @@ more hosts than the one described in the `vagrantfile`):
 - Up to 130 hosts in the same subnet of `host-1-a`
 - Up to 25 hosts in the same subnet of `host-1-b`
 - Consume as few IP addresses as possible
+
+
+# Requirements
+ - 10GB disk storage
+ - 2GB free RAM
+ - Virtualbox
+ - Vagrant (https://www.vagrantup.com)
+ - Internet
+
+# The Network
