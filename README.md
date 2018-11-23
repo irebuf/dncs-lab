@@ -78,3 +78,16 @@ host-b                    running (virtualbox)
 `vagrant ssh switch`
 `vagrant ssh host-a`
 `vagrant ssh host-b`
+
+
+#Assigment
+Based the `Vagrantfile` and the provisioning scripts available at:
+[https://github.com/dustnic/dncs-lab] (https://github.com/dustnic/dncs-lab) the candidate is required to design a functioning network where
+any host configured and attached to `router-1` (through `switch` ) can browse a website hosted on
+`host-2-c`.
+
+The subnetting needs to be designed to accommodate the following requirement (no need to create
+more hosts than the one described in the `vagrantfile`):
+- Up to 130 hosts in the same subnet of `host-1-a`
+- Up to 25 hosts in the same subnet of `host-1-b`
+- Consume as few IP addresses as possible
