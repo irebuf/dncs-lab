@@ -146,6 +146,6 @@ more hosts than the one described in the `vagrantfile`):
 
 
 
-  In the first (A) there are host-1-a, host-1-b, switch and router-1; This net is split in two vlan. The vlan with the tag 170 link router-1 with host-1-a, on the other side we have vlan 171 that link always router-1 with host-1-b. \\
-  The second (B) Subnetwork link the two router of the topology eachother. //
+  In the first (A) there are host-1-a, host-1-b, switch and router-1; This net is split in two vlan. The vlan with the tag 170 link router-1 with host-1-a, on the other side we have vlan 171 that link always router-1 with host-1-b. <br>
+  The second (B) Subnetwork link the two router of the topology eachother. <br>
   In the last one, the third (C) the net link router-2 with host-2-c.
