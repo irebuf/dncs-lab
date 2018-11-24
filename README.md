@@ -14,9 +14,9 @@ This repository contains the Vagrant files required to run the virtual lab envir
         |     |                |            |             |            |
         |     |                |            |             |            |
         |  M  |                +------------+             +------------+
-        |  A  |                      |eth1                       |eth1
+        |  A  |                      |eth1                       |eth1 -> 192.168.172.230
         |  N  |                      |                           |
-        |  A  |                      |                           |
+        |  A  |                      |                           |eth1 -> 192.168.172.229
         |  G  |                      |                     +-----+----+
         |  E  |                      |eth1                 |          |
         |  M  |            +-------------------+           |          |
@@ -35,12 +35,12 @@ This repository contains the Vagrant files required to run the virtual lab envir
         |     |        |          |     |          |             |
         |     |        |          |     |          |             |
         ++-+--+        +----------+     +----------+             |
-        | |                              |eth0                  |
-        | |                              |                      |
-        | +------------------------------+                      |
-        |                                                       |
-        |                                                       |
-        +-------------------------------------------------------+
+        | |                              |eth0                   |
+        | |                              |                       |
+        | +------------------------------+                       |
+        |                                                        |
+        |                                                        |
+        +--------------------------------------------------------+
 
 
 
@@ -96,3 +96,56 @@ more hosts than the one described in the `vagrantfile`):
  - Internet
 
 # The Network
+  All the device of our Network can be reach using the broadcast address 192.168.168.000 and the subnet mask is 255.255.248.000.
+  The Network can also be divid in three Subnetwork. 
+
+  
+
+        +---------------------------------------------------------------------------+
+        |                                                                           |
+        |                                                                           |
+        |                                                                           |
+        |                                                                           | eth0
+    +------+                    +--------------+                            +---------------+
+    |      |                    |              | 192.168.173.1              |               |
+    |      |               eth0 |              | eth2                  eth2 |               |
+    |  M   +--------------------+   router-1   +----------------------------+    router-2   |
+    |  A   |                    |              |               192.168.173.2|               |
+    |  N   |                    |              |                            |               |
+    |  A   |                    +--------------+                            +---------------+
+    |  G   |                   eth1.170 | eth1.171                                    | eth1
+    |  E   |            192.168.170.254 | 192.168.171.254                             | 192.168.172.230
+    |  M   |                            |                                             |
+    |  E   |                            |                                             |
+    |  N   |                            | eth1                                        |
+    |  T   |               eth0 +---------------+                                     |
+    |      +--------------------+               |                                     |
+    |      |                    |    SWITCH     |                                     |
+    |  V   |                    +---------------+                                     |
+    |  A   |                eth2  |           | eth3                                  |
+    |  G   |                      |           |                                       |
+    |  R   |                      |           |                                       |
+    |  A   |                      |           |                                       |
+    |  N   |        192.168.170.1 |           | 192.168.171.225                       | 192.168.172.229
+    |  T   |                 eth1 |           | eth1                                  | eth1
+    |      |          +--------------+       +--------------+                    +------------+
+    |      |          |              |       |              |                    |            |
+    |      |          |              |       |              |                    |            |
+    |      |     eth0 |   host-1-a   |       |   host-1-b   |                    |  host-2-c  |
+    |      +----------+              |       |              |                    |            |
+    |      |          |              |       |              |                    |            |
+    |      |          +--------------+       +--------------+                    +------------+
+    |      |                                        | eth0                             | eth0
+    |      +----------------------------------------+                                  |
+    |      |                                                                           |
+    +------+                                                                           |
+       |                                                                               |
+       +-------------------------------------------------------------------------------+
+
+
+
+
+
+  In the first (A) there are host-1-a, host-1-b, switch and router-1; This net is split in two vlan. The vlan with the tag 170 link router-1 with host-1-a, on the other side we have vlan 171 that link always router-1 with host-1-b.
+  The second (B) Subnetwork link the two router of the topology eachother.
+  In the last one, the third (C) the net link router-2 with host-2-c.
