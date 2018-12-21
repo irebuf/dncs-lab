@@ -6,8 +6,16 @@
 - [ Network Map ](#Map)
 - [ Description of subnets ](#Subnets)
   - [ Subnet A ](#A)
+    - [ Router 1 ](#r1-a)
+    - [ Host 1-a ](#h1a-a)
+    - [ Host 1-b ](#h1b-a)
+    - [ Switch ](#s-a)
   - [ Subnet B ](#B)
+    - [ Router 1 ](#r1-b)
+    - [ Router 2 ](#r2-b)   
   - [ Subnet C ](#B)
+    - [ Router 2 ](#r2-c)    
+    - [ Host 2-c ](#h2c-c)
 - [ How-to ](#how)
   - [ Display the website ](#display)
   - [ Test the network ](#test)
@@ -439,7 +447,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   On the other side the VLAN that link router-1 to host-1-b has 27 bit reserved for the Net and only 5 for the hosts. In this case we need at least 25 different IP address and the 2^5 (32) address are enough for IP address space, broadcast address and hosts.
   The firt IP has to be use for IP address space and in our configuration is 192.168.171.224, the second 192.168.171.225 the decided to use for port eth1 of host-1-b. We used the second-last 192.168.171.254 for eth1.171 of router-1 and lastly we have to use the last IP 192.168.171.255, with all the last 5 bit ad one for broadcast addess.
 
-
+<a name="r1-a"></a>
 ### Router-1
   We added in the file router-1.sh the following lines:
   ```
@@ -474,7 +482,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   From the general IP address 192.168.168.0 we decide to use the configuration 192.168.170.0/24 for the first VLAN and the configuration 192.168.171.224/27 for the second VLAN.
 
   We have IP 192.168.170.254 on eth1.170 on the port that link router with host-1-a. This IP is /24 so we can have an IP for all the 130 possible hosts in the net and we can reserved 2 host for the system. For eth1.171 we have the IP 192.168.171.254, this address is /27 so we have 32 IP, but only 30 free, for the hosts and they're enough for our system.    
-
+<a name="h1a-a"></a>
 ### Host-1-a
   We add this lines in the file host-1-a.sh:
   ```
@@ -494,7 +502,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
 #### IP
   Host-1-a has an IP address on port eth1 linked to router-1. It's 192.168.170.1 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 252 hosts). 
-
+<a name="h1b-a"></a>
 ### Host-1-b
   We add the following lines in file docker-1b.sh to link the host-1-b to the Network:
   ```
@@ -514,7 +522,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
 #### IP
   Host-1-b has an IP address at port eth1. It's 192.168.171.225. With this address and the port eth1 the host can send packets to all the devices with an IP between 192.168.168.0 and 192.168.175.255 and also recived from these devices. All the packets have to pass through port eth1.171 of router-1 at IP address 192.168.171.254.
-
+<a name="s-a"></a>
 ### Switch
   We add these lines in the file switch.sh to link switch with host-1-a, host-1-b and router-1:
   ```
@@ -547,7 +555,7 @@ We'll call Subnet B the part of our Network that connect the two routers, router
 
 This link has only to connect the two routers, so we decided to use as less bit for hosts as possible. We can't reserved only 1 bit, two addresses to it, because we need 2 address for the routers, one for the address space and one for the broadcast. So we have to use at least 2 bits for hosts' address, and we decided to use exactly 2 bit for have 4 IP address. <br>
 We use 192.168.173.0 for the address space, for the broadcast address we have to use the IP with the last 2 bits at one and in our configuration it's 192.168.173.3. We add IP 192.168.173.1 at eth2 of router-1 and the last IP 192.168.173.2 is the address of eth2 of router-2.
-
+<a name="r1-b"></a>
 ### Router-1
 We add these lines to the file router-1.sh to link the two routers:
 ```
@@ -600,30 +608,31 @@ These lines are used to configure in the right way the FRR and allow to link cor
 
 <a name="C"></a>
 ## Subnet C
-  ### Host-2-c 
-  In the file `docker-2c.sh` you can find these commands:
+<a name="r2-c"></a>
+### Router-2
+<a name="h2c-c"></a>
+### Host-2-c 
+In the file `docker-2c.sh` you can find these commands:
 
-  ```
-  ip link set dev eth1 up`
-  ```
-  We add this line to create the port eth1 in the host-2-c.
+```
+ip link set dev eth1 up`
+```
+We add this line to create the port eth1 in the host-2-c.
+```
+ip add add 192.168.172.229/30 dev eth1
+```
+We use this line to add an address to the port eth1; now we can use this port to link the host with other device to send and recive packet.
 
-  ```
-  ip add add 192.168.172.229/30 dev eth1
-  ```
-  We use this line to add an address to the port eth1; now we can use this port to link the host with other device to send and recive packet.
-
-  ```
-  ip route add 192.168.168.0/21 via 192.168.172.230
-  ```
-  This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-2 at address 192.168.172.230.
-  #### IP
-  Host-2-c has an IP address on port eth1 linked to router-2. It's 192.168.172.229 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 4 hosts). 
-  #### Docker
-  We need to set up the Docker repository.  As a precaution, we decided to uninstall older versions of Docker when they were present.
-
-  ```
-  apt-get remove docker docker-engine docker.io
+```
+ip route add 192.168.168.0/21 via 192.168.172.230
+```
+This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-2 at address 192.168.172.230.
+#### IP
+Host-2-c has an IP address on port eth1 linked to router-2. It's 192.168.172.229 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 4 hosts). 
+#### Docker
+We need to set up the Docker repository.  As a precaution, we decided to uninstall older versions of Docker when they were present.
+```
+apt-get remove docker docker-engine docker.io
 apt-get update --assume-yes --force-yes
 apt-get install apt-transport-https --assume-yes --force-yes
 apt-get install ca-certificates --assume-yes --force-yes
