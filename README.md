@@ -204,7 +204,7 @@ PING 192.168.171.225 (192.168.171.225) 56(84) bytes of data.
 64 bytes from 192.168.171.225: icmp_seq=3 ttl=64 time=5.30 ms
 64 bytes from 192.168.171.225: icmp_seq=4 ttl=64 time=7.64 ms
 64 bytes from 192.168.171.225: icmp_seq=5 ttl=64 time=4.03 ms
-^C
+
 --- 192.168.171.225 ping statistics ---
 5 packets transmitted, 5 received, 0% packet loss, time 4012ms
 rtt min/avg/max/mdev = 3.234/5.658/8.085/1.921 ms
