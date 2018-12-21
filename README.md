@@ -116,6 +116,7 @@ In order to show OpenFlow information on the switch (OpenFlow features ans port 
 We can see the ports' name and also if they are associated to a VLAN. `Eth1` is a trunk port: it's a link between `switch` and `router-1`. Otherwise `Eth2` and `Eth3` are access port: they take the packets they receive and retags them.
 
 You can also execute the `ifconfig` command for controlling network interface.
+```
 eth0      Link encap:Ethernet  HWaddr 08:00:27:20:c5:44
           inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
           inet6 addr: fe80::a00:27ff:fe20:c544/64 Scope:Link
@@ -173,7 +174,7 @@ switch    Link encap:Ethernet  HWaddr 08:00:27:86:53:4a
           TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0
           RX bytes:260250 (260.2 KB)  TX bytes:648 (648.0 B)
-
+```
  ### Router-1-b
 
 # Network Map
