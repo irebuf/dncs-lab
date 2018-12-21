@@ -191,13 +191,23 @@ Ciao
 #### IP
   Router-1 has two different IP address on port eth1.
 
-  From the general IP address 
+  From the general IP address 192.168.168.0 we decide to use the configuration 192.168.170.0/24 for the first VLAN and the configuration 192.168.171.224/27 for the second VLAN.
 
-  We have IP 192.168.170.254 on eth1.170 on the port that link router with host-1-a. This IP is /24 so we can have an IP for all the 130 possible hosts in the net and we can reserved 2 host for the system.  
+  We have IP 192.168.170.254 on eth1.170 on the port that link router with host-1-a. This IP is /24 so we can have an IP for all the 130 possible hosts in the net and we can reserved 2 host for the system. For eth1.171 we have the IP 192.168.171.254, this address is /27 so we have 32 IP, but only 30 free, for the hosts and they're enough for our system.    
 
-  
+### Host-1-a
+  We add this lines in the file host-1-a.sh:
+  ```
+   ip link set dev eth1 up
+   ip add add 192.168.170.1/24 dev eth1
+   ip route add 192.168.168.0/21 via 192.168.170.254 
+  ```
 
+  `ip link set dev eth1 up` <br>
+  We add this line to create the port eth1 in the host-1-a.
 
+  `ip add add 192.168.170.1/24 dev eth1`<br>
+  We use this line to add an address to the port eth1; now we can use this port to link the host with other device to send and recive packet.
 
-
-  Its IP address space is 192.168.168.0, the subnet mask is 255.255.175.000 and the broadcast address is 192.168.175.255; so we have 21 bit for the net and we use only 
+  `ip route add 192.168.168.0/21 via 192.168.170.254` <br>
+  This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-1 at address 192.168.170.254.
