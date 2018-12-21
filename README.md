@@ -1,5 +1,18 @@
 # DNCS-LAB
 
+# Table of contents
+- [ Assignment ](#Assignment)
+- [ Requirements ](#Requirements)
+- [ Network Map ](#Map)
+- [ Description of subnets ](#Subnets)
+  - [ Subnet A ](#A)
+  - [ Subnet B ](#B)
+  - [ Subnet C ](#B)
+- [ How-to ](#how)
+  - [ Display the website ](#display)
+  - [ Test the network ](#test)
+
+<a name="Assignment"></a>
 # Assigment
 Based the `Vagrantfile` and the provisioning scripts available at:
 https://github.com/dustnic/dncs-lab the candidate is required to design a functioning network where
@@ -12,15 +25,16 @@ more hosts than the one described in the `vagrantfile`):
 - Up to 25 hosts in the same subnet of `host-1-b`
 - Consume as few IP addresses as possible
 
-
+<a name="Requirements"></a>
 # Requirements
  - 10GB disk storage
  - 2GB free RAM
  - Virtualbox
  - Vagrant (https://www.vagrantup.com)
  - Internet
-
+<a name="How"></a>
 # How-to
+<a name="Display"></a>
 ## Display the website
  - Install Virtualbox and Vagrant
  - Clone this repository
@@ -93,7 +107,7 @@ The vagrant response is going to be:
 </body>
 ```
 This is the htlm code of the website hosted on `host-2-c`.
-
+<a name="Test"></a>
 ## Test the network
 ### Switch
 Log into the switch using 
@@ -347,7 +361,7 @@ We can see some basic information about our container.
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
 390e0079bb45        nginx               "nginx -g 'daemon of…"   4 hours ago         Up 4 hours          0.0.0.0:80->80/tcp   docker-nginx
  ```
-
+<a name="Map"></a>
 # Network Map
   All the device of our Network can be reach using the broadcast address 192.168.168.000 and the subnet mask is 255.255.248.000.
   The Network can also be divid in three Subnetwork. 
@@ -403,6 +417,9 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   The second (B) Subnetwork link the two router of the topology eachother. <br>
   In the last one, the third (C) the net link router-2 with host-2-c.
 
+<a name="Subnets"></a>
+# Descriptions of  subnets
+<a name="A"></a>
 ## Subnet A
   We'll call subnet A the part of the network in which we can find router-1, switch, host-1-a and host-1-b. We split the link between the port eth1 of the router and the port eth1 of the switch in two vlan, so we can use the same physical link to connect two different host through the switch.
 
@@ -514,6 +531,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   `ip link set dev eth3 up` <br>
   These lines need to create and switch on the three port eth1, eth2 and eth3 that connect switch with the other devices. Now we can send packets thought switch.
 
+<a name="B"></a>
 ## Subnet B
 We'll call Subnet B the part of our Network that connect the two routers, router-1 and router-2. This link is necessary to connect the hosts in the Subnet A to the hosts in the Subnet C, so all the devices of our Net can send and recived packets for all the other devices.
 
@@ -570,11 +588,30 @@ These lines are used to configure in the right way the FRR and allow to link cor
 
 
 
-
+<a name="C"></a>
 ## Subnet C
-### Host-2-c
-#### Docker
-We need to set up the Docker repository.  As a precaution, we decided to uninstall older versions of Docker when they were present.
+  ### Host-2-c 
+  In the file `docker-2c.sh` you can find these commands:
+
+  ```
+  ip link set dev eth1 up`
+  ```
+  We add this line to create the port eth1 in the host-2-c.
+
+  ```
+  ip add add 192.168.172.229/30 dev eth1
+  ```
+  We use this line to add an address to the port eth1; now we can use this port to link the host with other device to send and recive packet.
+
+  ```
+  ip route add 192.168.168.0/21 via 192.168.172.230
+  ```
+  This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-2 at address 192.168.172.230.
+  #### IP
+  Host-2-c has an IP address on port eth1 linked to router-2. It's 192.168.172.229 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 4 hosts). 
+  #### Docker
+  We need to set up the Docker repository.  As a precaution, we decided to uninstall older versions of Docker when they were present.
+
   ```
   apt-get remove docker docker-engine docker.io
 apt-get update --assume-yes --force-yes
@@ -603,9 +640,10 @@ The file is first cleaned and then we put the website's  html code site into it.
 truncate -s 0 index.html
 echo " -----  " >> index.html
 ```
-FInally we link the container to the local filesystem by creating a new Nginx container (our virtual machine will be located in the port 80).
+FInally we link the container to the local filesystem by creating a new Nginx container (our virtual machine will be located in port 80).
 ```
 docker rm docker-nginx
 docker run --name docker-nginx -p 80:80 -d -v ~/docker-nginx/html:/usr/share/nginx/html nginx
 ```
+
 
