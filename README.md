@@ -27,18 +27,28 @@ more hosts than the one described in the `vagrantfile`):
  - You should be able to launch the lab from within the cloned repo folder.
 ```
 cd dncs-lab
-[~/dncs-lab] vagrant up
+[~/dncs-lab] vagrant up --provision
 ```
 Once you launch the vagrant script, it may take a while for the entire topology to become available.
- - Verify the status of the 4 VMs
+ - Now you can verify the status of the 4 VMs using the command
  ```
- [dncs-lab]$ vagrant status                                                                                                                                                                
+ [dncs-lab]$ vagrant status      
+ ```
+ If everything goes weel the terminal will show you                                                                                                                                                          
+ ```
 Current machine states:
 
-router                    running (virtualbox)
-switch                    running (virtualbox)
-host-a                    running (virtualbox)
-host-b                    running (virtualbox)
+router-1 | running (virtualbox)
+--- | ---
+router-2 | running (virtualbox)
+--- | ---
+switch |  running (virtualbox)
+--- | ---
+host-1-a | running (virtualbox)
+--- | ---
+host-1- b | running (virtualbox)
+--- | ---
+host-2-c | running (virtualbox)
 ```
 - Once all the VMs are running verify you can log into all of them:
 `vagrant ssh router`
