@@ -21,7 +21,7 @@ more hosts than the one described in the `vagrantfile`):
  - Internet
 
 # How-to
-##Display the website
+## Display the website
  - Install Virtualbox and Vagrant
  - Clone this repository
 `git clone https://github.com/dustnic/dncs-lab`
@@ -92,7 +92,7 @@ The vagrant response is going to be:
 ```
 This is the htlm code of the website hosted on `host-2-c`.
 
-##Test the net
+## Test the net
 Ciao
 
 # Network Map
