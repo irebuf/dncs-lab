@@ -1,8 +1,17 @@
 # DNCS-LAB
 
-#Table of contents
-1. [ Description. ](#Assignment)
-2. [ Usage tips. ](#Requirements)
+# Table of contents
+- [ Assignment ](#Assignment)
+- [ Requirements ](#Requirements)
+- [ Network Map ](#Map)
+- [ Description of subnets ](#Subnets)
+  - [ Subnet A ](#A)
+  - [ Subnet B ](#B)
+  - [ Subnet C ](#B)
+- [ How-to ](#how)
+  - [ Display the website ](#display)
+  - [ Test the network ](#test)
+
 <a name="Assignment"></a>
 # Assigment
 Based the `Vagrantfile` and the provisioning scripts available at:
@@ -23,8 +32,9 @@ more hosts than the one described in the `vagrantfile`):
  - Virtualbox
  - Vagrant (https://www.vagrantup.com)
  - Internet
-
+<a name="How"></a>
 # How-to
+<a name="Display"></a>
 ## Display the website
  - Install Virtualbox and Vagrant
  - Clone this repository
@@ -97,7 +107,7 @@ The vagrant response is going to be:
 </body>
 ```
 This is the htlm code of the website hosted on `host-2-c`.
-
+<a name="Test"></a>
 ## Test the network
 ### Switch
 Log into the switch using 
@@ -351,7 +361,7 @@ We can see some basic information about our container.
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
 390e0079bb45        nginx               "nginx -g 'daemon of…"   4 hours ago         Up 4 hours          0.0.0.0:80->80/tcp   docker-nginx
  ```
-
+<a name="Map"></a>
 # Network Map
   All the device of our Network can be reach using the broadcast address 192.168.168.000 and the subnet mask is 255.255.248.000.
   The Network can also be divid in three Subnetwork. 
@@ -407,6 +417,9 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   The second (B) Subnetwork link the two router of the topology eachother. <br>
   In the last one, the third (C) the net link router-2 with host-2-c.
 
+<a name="Subnets"></a>
+# Descriptions of  subnets
+<a name="A"></a>
 ## Subnet A
   We'll call subnet A the part of the network in which we can find router-1, switch, host-1-a and host-1-b. We split the link between the port eth1 of the router and the port eth1 of the switch in two vlan, so we can use the same physical link to connect two different host through the switch.
 
@@ -518,13 +531,15 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   `ip link set dev eth3 up` <br>
   These lines need to create and switch on the three port eth1, eth2 and eth3 that connect switch with the other devices. Now we can send packets thought switch.
 
+<a name="B"></a>
 ## Subnet B
 We'll call Subnet B the part of our Network that connect the two routers, router-1 and router-2. This link is necessary to connect the hosts in the Subnet A to the hosts in the Subnet C, so all the devices of our Net can send and recived packets for all the other devices.
 
 This link has only to connect the two routers, so we decided to use as less bit for hosts as possible. We can't reserved only 1 bit, two addresses to it, because we need 2 address for the routers, one for the address space and one for the broadcast. So we have to use at least 2 bits for hosts' address, and we decided to use exactly 2 bit for have 4 IP address. <br>
 We use 192.168.173.0 for the address space, for the broadcast address we have to use the IP with the last 2 bits at one and in our configuration it's 192.168.173.3. We add IP 192.168.173.1 at eth2 of router-1 and the last IP 192.168.173.2 is the address of eth2 of router-2.
 
-  ## Subnet C
+<a name="C"></a>
+## Subnet C
   ### Host-2-c 
   In the file `docker-2c.sh` you can find these commands:
 
