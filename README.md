@@ -45,9 +45,11 @@ host-1-a                  running (virtualbox)
 host-1-b                  running (virtualbox)
 host-2-c                  running (virtualbox)
  ```
-The request is to reach a website hosted on `host-2-c` any host configured and attached to `router-1` (`host-1-a` and `host-1-c`). So, once all the VMs are running you can log into `host-1-a` and `host-1-b` (you have to duplicate the terminal or to log into the host in two different times: if you want to exit from an host type `exit`) using these commands:
+The request is to reach a website hosted on `host-2-c` any host configured and attached to `router-1` (`host-1-a` and `host-1-c`). So, once all the VMs are running you can log into `host-1-a` and `host-1-b` (you have to duplicate the terminal or to log into the hosts in two different times: if you want to exit from an host type `exit`) using these commands (in two different windows):
 ```
 vagrant ssh host-1-a
+```
+```
 vagrant ssh host-1-b
 ```
 The terminal will show you in each case:
@@ -57,9 +59,13 @@ Welcome to Ubuntu 14.04.3 LTS (GNU/Linux 3.16.0-55-generic x86_64)
  * Documentation:  https://help.ubuntu.com/
 Development Environment
 ```
-Then get the root permission of the two terminals using the command `sudo su` .
+Then get the root permission of the two terminals using the command
+```
+sudo su` 
+```
 
-In order to browse the website type the command `curl 192.168.172.229`:
+In order to browse the website type the command
+```curl 192.168.172.229````
 The vagrant response is going to be:
 
 ```
