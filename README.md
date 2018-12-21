@@ -502,11 +502,16 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   ```
 
   `ovs-vsctl add-br switch`<br>
-  We need this line to configure the switch and use it like a bridge that connect hosts and router
+  We need this line to configure the switch and use it like a bridge that connect hosts and router because we use multiple ports and VLANs.
 
-  `ip link set dev eth1 up`
-  `ip link set dev eth2 up`
-  `ip link set dev eth3 up`
+  `ovs-vsctl add-port switch eth1`<br>
+  `ovs-vsctl add-port switch eth2 tag=170`<br>
+  `ovs-vsctl add-port switch eth3 tag=171`<br>
+  These lines add the port to the switch and give a different name to all the port. The port has no tag so it's a trunk port instead the other two ports, eth2 and eth3, are tagged with rispectively 170 and 171. These tags are necessary to divided the traffic from router-1, that came in in eth1, to host-1-a's VLAN in eth2 or to host-1-b's VLAN through eth3. The switch read the tag that router assigned to each packet before send it in eth1.
+
+  `ip link set dev eth1 up` <br>
+  `ip link set dev eth2 up` <br>
+  `ip link set dev eth3 up` <br>
   These lines need to create and switch on the three port eth1, eth2 and eth3 that connect switch with the other devices. Now we can send packets thought switch.
 
   ## Subnet C
