@@ -386,7 +386,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 <a name="Map"></a>
 # Network Map
   All the device of our Network can be reach using the broadcast address 192.168.168.000 and the subnet mask is 255.255.248.000.
-  The Network can also be divid in three Subnetwork. 
+  The Network can also be divide in three Subnetwork. 
 
   
 
@@ -435,126 +435,138 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
 
 
-  In the first (A) there are host-1-a, host-1-b, switch and router-1; This net is split in two vlan. The vlan with the tag 170 link router-1 with host-1-a, on the other side we have vlan 171 that link always router-1 with host-1-b. <br>
-  The second (B) Subnetwork link the two router of the topology eachother. <br>
-  In the last one, the third (C) the net link router-2 with host-2-c.
+  In the first (A) there are `host-1-a`, `host-1-b`, `switch` and `router-1`; this net is split in two vLan. The vLan with the tag 170 links `router-1` with `host-1-a`; on the other side we have vLan 171 that link `router-1` with `host-1-b`. <br>
+  The second (B) Subnetwork links the two routers of the topology eachother. <br>
+  In the last one (C),  the net links `router-2` with `host-2-c`.
 
 <a name="Subnets"></a>
 # Descriptions of  subnets
 <a name="A"></a>
 ## Subnet A
-  We'll call subnet A the part of the network in which we can find router-1, switch, host-1-a and host-1-b. We split the link between the port eth1 of the router and the port eth1 of the switch in two vlan, so we can use the same physical link to connect two different host through the switch.
+ Subnet A is  the part of the network in which we can find `router-1`, `switch`, `host-1-a` and `host-1-b`. We split the link between the port eth1 of the router and the port eth1 of the switch in two vLans, so we can use the same physical link to connect two different hosts through the switch.
 
-  The VLAN that link router-1 to host-1-a has 24 bit reserved and only 8 bit for the hosts but its enough for our configuration. In fact we have 2^8 (256) different IP address, but we can't use all it. We have to reserved 2 IP, the first one 192.168.170.0 is for IP address space (it has all the last 8 bit at zero) and the last one is the broadcast address 192.168.170.255 (it has all the last 8 bit at one). We decided to use the first free IP address for the port eth1 of the host-1-a (192.168.170.1) and the last free for the port eth1.170 of the router (192.168.170.254).
-  Even thought 254 different IP adress are enough for the assigment request of 130 hosts. If we had used 7 bits for host we would have only 128 different IP address.
+The VLAN that link router-1 to host-1-a has 24 bit reserved and only 8 bit for the hosts but its enough for our configuration. In fact we have 2^8 (256) different IP address, but we can't use all it. We have to reserved 2 IP, the first one 192.168.170.0 is for IP address space (it has all the last 8 bit at zero) and the last one is the broadcast address 192.168.170.255 (it has all the last 8 bit at one). We decided to use the first free IP address for the port eth1 of the host-1-a (192.168.170.1) and the last free for the port eth1.170 of the router (192.168.170.254).
+Even thought 254 different IP adress are enough for the assigment request of 130 hosts. If we had used 7 bits for host we would have only 128 different IP address.
 
-  On the other side the VLAN that link router-1 to host-1-b has 27 bit reserved for the Net and only 5 for the hosts. In this case we need at least 25 different IP address and the 2^5 (32) address are enough for IP address space, broadcast address and hosts.
-  The firt IP has to be use for IP address space and in our configuration is 192.168.171.224, the second 192.168.171.225 the decided to use for port eth1 of host-1-b. We used the second-last 192.168.171.254 for eth1.171 of router-1 and lastly we have to use the last IP 192.168.171.255, with all the last 5 bit ad one for broadcast addess.
+On the other side the VLAN that link router-1 to host-1-b has 27 bit reserved for the Net and only 5 for the hosts. In this case we need at least 25 different IP address and the 2^5 (32) address are enough for IP address space, broadcast address and hosts.
+The firt IP has to be use for IP address space and in our configuration is 192.168.171.224, the second 192.168.171.225 the decided to use for port eth1 of host-1-b. We used the second-last 192.168.171.254 for eth1.171 of router-1 and lastly we have to use the last IP 192.168.171.255, with all the last 5 bit ad one for broadcast addess.
 
 <a name="r1-a"></a>
 ### Router-1
-  We added in the file router-1.sh the following lines:
+We added in the file router-1.sh the following lines:
   ```
-   ip link set dev eth1 up
-   ip link add link eth1 name eth1.170 type vlan id 170
-   ip link add link eth1 name eth1.171 type vlan id 171
-   ip add add 192.168.170.254/24 dev eth1.170
-   ip add add 192.168.171.254/27 dev eth1.171
-   ip link set eth1.170 up
-   ip link set eth1.171 up
+ip link set dev eth1 up
+ip link add link eth1 name eth1.170 type vlan id 170
+ip link add link eth1 name eth1.171 type vlan id 171
+ip add add 192.168.170.254/24 dev eth1.170
+ip add add 192.168.171.254/27 dev eth1.171
+ip link set eth1.170 up
+ip link set eth1.171 up
    ```
-
-  `ip link set dev eth1 up` <br>
-  We need this line to create the port eth1 that is link to the switch.
-
-  `ip link add link eth1 name eth1.170 type vlan id 170` <br>
-  `ip link add link eth1 name eth1.171 type vlan id 171` <br>
-  We use these lines to split the port eth1 in two ports (eth1.170 and eth1.171) to use the VLAN that virtualy split the link. We call the two VLAN with the third 8 bits of IP configuration of the link.
-
-  `ip add add 192.168.170.254/24 dev eth1.170` <br>
-  `ip add add 192.168.171.254/27 dev eth1.171`<br>
-  With this lines we add the address to the two virtual ports.
-
-  `ip link set eth1.170 up`<br>
-  `ip link set eth1.171 up`<br>
-  Now we can use these lines to 'switch on' the two ports.
+```
+ip link set dev eth1 up
+```
+We need this line to create the port eth1 that is link to the switch.
+```
+ip link add link eth1 name eth1.170 type vlan id 170
+ip link add link eth1 name eth1.171 type vlan id 171
+```
+We use these lines to split the port eth1 in two ports (eth1.170 and eth1.171) to use the VLAN that virtualy split the link. We call the two VLAN with the third 8 bits of IP configuration of the link.
+```
+ip add add 192.168.170.254/24 dev eth1.170
+ip add add 192.168.171.254/27 dev eth1.171
+```
+With this lines we add the address to the two virtual ports.
+```
+ip link set eth1.170 up
+ip link set eth1.171 up
+```
+Now we can use these lines to 'switch on' the two ports.
 
 
 #### IP
-  Router-1 has two different IP address on port eth1.
+Router-1 has two different IP address on port eth1.
 
-  From the general IP address 192.168.168.0 we decide to use the configuration 192.168.170.0/24 for the first VLAN and the configuration 192.168.171.224/27 for the second VLAN.
+From the general IP address 192.168.168.0 we decide to use the configuration 192.168.170.0/24 for the first VLAN and the configuration 192.168.171.224/27 for the second VLAN.
 
-  We have IP 192.168.170.254 on eth1.170 on the port that link router with host-1-a. This IP is /24 so we can have an IP for all the 130 possible hosts in the net and we can reserved 2 host for the system. For eth1.171 we have the IP 192.168.171.254, this address is /27 so we have 32 IP, but only 30 free, for the hosts and they're enough for our system.    
+We have IP 192.168.170.254 on eth1.170 on the port that link router with host-1-a. This IP is /24 so we can have an IP for all the 130 possible hosts in the net and we can reserved 2 host for the system. For eth1.171 we have the IP 192.168.171.254, this address is /27 so we have 32 IP, but only 30 free, for the hosts and they're enough for our system.    
 <a name="h1a-a"></a>
 ### Host-1-a
-  We add this lines in the file host-1-a.sh:
+We add this lines in the file host-1-a.sh:
   ```
-   ip link set dev eth1 up
-   ip add add 192.168.170.1/24 dev eth1
-   ip route add 192.168.168.0/21 via 192.168.170.254 
+ip link set dev eth1 up
+ip add add 192.168.170.1/24 dev eth1
+ip route add 192.168.168.0/21 via 192.168.170.254 
   ```
-
-  `ip link set dev eth1 up` <br>
-  We add this line to create the port eth1 in the host-1-a.
-
-  `ip add add 192.168.170.1/24 dev eth1`<br>
-  We use this line to add an address to the port eth1; now we can use this port to link the host with other device to send and recive packet.
-
-  `ip route add 192.168.168.0/21 via 192.168.170.254` <br>
-  This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-1 at address 192.168.170.254.
+```
+ip link set dev eth1 up
+```
+We add this line to create the port eth1 in the host-1-a.
+```
+ip add add 192.168.170.1/24 dev eth1
+```
+We use this line to add an address to the port eth1; now we can use this port to link the host with other device to send and recive packet.
+```
+ip route add 192.168.168.0/21 via 192.168.170.254
+```
+This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-1 at address 192.168.170.254.
 
 #### IP
   Host-1-a has an IP address on port eth1 linked to router-1. It's 192.168.170.1 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 252 hosts). 
 <a name="h1b-a"></a>
 ### Host-1-b
-  We add the following lines in file docker-1b.sh to link the host-1-b to the Network:
+We add the following lines in file docker-1b.sh to link the host-1-b to the Network:
   ```
-   ip link set dev eth1 up
-   ip add add 192.168.171.225/27 dev eth1
-   ip route add 192.168.168.0/21 via 192.168.171.254
+ip link set dev eth1 up
+ip add add 192.168.171.225/27 dev eth1
+ip route add 192.168.168.0/21 via 192.168.171.254
    ```
-  
-  `ip link set dev eth1 up` <br>
-  We use this line to create the port eth1 of host-1-b. It's necessary to link the host with the Net.
+```  
+ip link set dev eth1 up
+```
+We use this line to create the port eth1 of host-1-b. It's necessary to link the host with the Net.
+```
+ip add add 192.168.171.225/27 dev eth1
+```
+We add the IP address 192.168.171.225 with this line at host-1-b's port eth1.
 
-  `ip add add 192.168.171.225/27 dev eth1` <br>
-  We add the IP address 192.168.171.225 with this line at host-1-b's port eth1.
-
-  `ip route add 192.168.168.0/21 via 192.168.171.254` <br>
-  With this line we add the route that all packets with an address of configuration 192.168.168.0/21 have to do to reach the right destination. All these packets have to travel through port eth1.171 of router that has IP 192.168.171.254.
+```
+ip route add 192.168.168.0/21 via 192.168.171.254
+```
+With this line we add the route that all packets with an address of configuration 192.168.168.0/21 have to do to reach the right destination. All these packets have to travel through port eth1.171 of router that has IP 192.168.171.254.
 
 #### IP
-  Host-1-b has an IP address at port eth1. It's 192.168.171.225. With this address and the port eth1 the host can send packets to all the devices with an IP between 192.168.168.0 and 192.168.175.255 and also recived from these devices. All the packets have to pass through port eth1.171 of router-1 at IP address 192.168.171.254.
+Host-1-b has an IP address at port eth1. It's 192.168.171.225. With this address and the port eth1 the host can send packets to all the devices with an IP between 192.168.168.0 and 192.168.175.255 and also recived from these devices. All the packets have to pass through port eth1.171 of router-1 at IP address 192.168.171.254.
 <a name="s-a"></a>
 ### Switch
-  We add these lines in the file switch.sh to link switch with host-1-a, host-1-b and router-1:
+We add these lines in the file switch.sh to link switch with host-1-a, host-1-b and router-1:
   ```
-   ovs-vsctl add-br switch
-   ovs-vsctl add-port switch eth1
-   ovs-vsctl add-port switch eth2 tag=170
-   ovs-vsctl add-port switch eth3 tag=171
-   ip link set dev eth1 up
-   ip link set dev eth2 up
-   ip link set dev eth3 up
-   ip link set ovs-system up
+ovs-vsctl add-br switch
+ovs-vsctl add-port switch eth1
+ovs-vsctl add-port switch eth2 tag=170
+ovs-vsctl add-port switch eth3 tag=171
+ip link set dev eth1 up
+ip link set dev eth2 up
+ip link set dev eth3 up
+ip link set ovs-system up
+```
+The  ovs-vsctl  program  supports  the model of a bridge implemented by Open vSwitch (OVS). OVS simulates a Layer 2 learning switch which maintains a MAC address learning table. VMs connect to virtual ports on the switch. We uses the OpenFlow protocol to configure and communicate with Open vSwitch.
+ ```
+ovs-vsctl add-br switch
   ```
- The  ovs-vsctl  program  supports  the model of a bridge implemented by Open vSwitch (OVS). OVS simulates a Layer 2 learning switch which maintains a MAC address learning table. VMs connect to virtual ports on the switch. We uses the OpenFlow protocol to configure and communicate with Open vSwitch.
-  ```
-  ovs-vsctl add-br switch
-  ```
-  We need this line to configure the switch and use it like a bridge that connect hosts and router because we use multiple ports and VLANs.
+We need this line to configure the switch and use it like a bridge that connect hosts and router because we use multiple ports and VLANs.
 ```
 ovs-vsctl add-port switch eth1
 ovs-vsctl add-port switch eth2 tag=170
 ovs-vsctl add-port switch eth3 tag=171
 ```
 These lines add the port to the switch and give a different name to all the port. The port has no tag so it's a trunk port instead the other two ports, eth2 and eth3, are tagged with rispectively 170 and 171. These tags are necessary to divided the traffic from router-1, that came in in eth1, to host-1-a's VLAN in eth2 or to host-1-b's VLAN through eth3. The switch read the tag that router assigned to each packet before send it in eth1.
-
-  `ip link set dev eth1 up` <br>
-  `ip link set dev eth2 up` <br>
-  `ip link set dev eth3 up` <br>
-  These lines need to create and switch on the three port eth1, eth2 and eth3 that connect switch with the other devices. Now we can send packets thought switch.
+```
+ip link set dev eth1 up
+ip link set dev eth2 up
+ip link set dev eth3 up
+```
+These lines need to create and switch on the three port eth1, eth2 and eth3 that connect switch with the other devices. Now we can send packets thought switch.
 
 <a name="B"></a>
 ## Subnet B
