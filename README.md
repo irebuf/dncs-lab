@@ -548,6 +548,56 @@ We'll call Subnet B the part of our Network that connect the two routers, router
 This link has only to connect the two routers, so we decided to use as less bit for hosts as possible. We can't reserved only 1 bit, two addresses to it, because we need 2 address for the routers, one for the address space and one for the broadcast. So we have to use at least 2 bits for hosts' address, and we decided to use exactly 2 bit for have 4 IP address. <br>
 We use 192.168.173.0 for the address space, for the broadcast address we have to use the IP with the last 2 bits at one and in our configuration it's 192.168.173.3. We add IP 192.168.173.1 at eth2 of router-1 and the last IP 192.168.173.2 is the address of eth2 of router-2.
 
+### Router-1
+We add these lines to the file router-1.sh to link the two routers:
+```
+apt-get install -y frr --assume-yes --force-yes
+ip link set dev eth2 up
+ip add add 192.168.173.1/30 dev eth2
+ip link set eth2 up
+sysctl net.ipv4.ip_forward=1
+sed -i "s/\(zebra *= *\). */\1yes/" /etc/frr/daemons
+sed -i "s/\(ospfd *= *\). */\1yes/" /etc/frr/daemons
+service frr restart
+vtysh -c 'configure terminal' -c 'router ospf' -c 'redistribute connected'  -c 'exit' -c 'interface eth2' -c 'ip ospf area 0.0.0.0' -c 'exit' -c 'exit' -c 'write'
+```
+
+```
+apt-get install -y frr --assume-yes --force-yes
+```
+This line is necessary to install in the router the FRRouting protocol that allows a dynamic routing between the routers
+
+```
+ip link set dev eth2 up
+```
+We use this line to create the port eth2 in the router-1. For each port the router is link to a different Subnet.
+
+```
+ip add add 192.168.173.1/30 dev eth2
+```
+This line is used to add an IP address to the new port. The port eth2 has the IP 192.168.173.1.
+
+```
+ip link set eth2 up
+```
+We used this line to switch on and check the port eth2.
+
+```
+sysctl net.ipv4.ip_forward=1
+```
+We add this line for enable the forwarding that redirects each packets to the correct port using the IP address.
+
+```
+sed -i "s/\(zebra *= *\). */\1yes/" /etc/frr/daemons
+sed -i "s/\(ospfd *= *\). */\1yes/" /etc/frr/daemons
+service frr restart
+vtysh -c 'configure terminal' -c 'router ospf' -c 'redistribute connected'  -c 'exit' -c 'interface eth2' -c 'ip ospf area 0.0.0.0' -c 'exit' -c 'exit' -c 'write'
+```
+These lines are used to configure in the right way the FRR and allow to link correctly the two router and consequently the different Subnet.
+
+
+
+
 <a name="C"></a>
 ## Subnet C
   ### Host-2-c 
@@ -571,6 +621,7 @@ We use 192.168.173.0 for the address space, for the broadcast address we have to
   Host-2-c has an IP address on port eth1 linked to router-2. It's 192.168.172.229 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 4 hosts). 
   #### Docker
   We need to set up the Docker repository.  As a precaution, we decided to uninstall older versions of Docker when they were present.
+
   ```
   apt-get remove docker docker-engine docker.io
 apt-get update --assume-yes --force-yes
