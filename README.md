@@ -37,7 +37,7 @@ Once you launch the vagrant script, it may take a while for the entire topology 
  If everything goes weel the terminal will show you                                                                                                                                                          
  ```
 Current machine states:
-
+ ```
 router-1 | running (virtualbox)
 --- | ---
 router-2 | running (virtualbox)
@@ -49,7 +49,7 @@ host-1-a | running (virtualbox)
 host-1- b | running (virtualbox)
 --- | ---
 host-2-c | running (virtualbox)
-```
+
 - Once all the VMs are running verify you can log into all of them:
 `vagrant ssh router`
 `vagrant ssh switch`
