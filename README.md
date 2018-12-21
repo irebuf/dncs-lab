@@ -28,8 +28,8 @@
     - [ Host 2-c ](#h2c-h)
 <a name="Collaborators"></a>
 # Who-we-are
-- Daniele Mattedi [186778], III year of "Laurea in Ingegneria dell'Informazione e delle Comunicazioni"
-- Irene Buffa [185151], III year of "Laurea in Ingegneria dell'Informazione e delle Comunicazioni"
+- Daniele Mattedi, III year of "Laurea in Ingegneria dell'Informazione e delle Comunicazioni"
+- Irene Buffa, III year of "Laurea in Ingegneria dell'Informazione e delle Comunicazioni"
 <a name="Assignment"></a>
 # Assigment
 Based the `Vagrantfile` and the provisioning scripts available at:
