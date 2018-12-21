@@ -38,12 +38,12 @@ Once you launch the vagrant script, it may take some minutes (this value depends
  ```
 Current machine states:
 
-router-1       running (virtualbox)
-router-2       running (virtualbox)
-switch          running (virtualbox)
-host-1-a      running (virtualbox)
-host-1- b     running (virtualbox)
-host-2-c      running (virtualbox)
+router-1                  running (virtualbox)
+router-2                  running (virtualbox)
+switch                    running (virtualbox)
+host-1-a                  running (virtualbox)
+host-1-b                  running (virtualbox)
+host-2-c                  running (virtualbox)
  ```
 The request is to reach a website hosted on `host-2-c` any host configured and attached to `router-1` (`host-1-a` and `host-1-c`). So, once all the VMs are running you can log into `host-1-a` and `host-1-b` using these commands:
 ```
