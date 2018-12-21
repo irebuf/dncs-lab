@@ -177,21 +177,25 @@ Ciao
   `ip link set dev eth1 up` <br>
   We need this line to create the port eth1 that is link to the switch.
 
-  `ip link add link eth1 name eth1.170 type vlan id 170`
+  `ip link add link eth1 name eth1.170 type vlan id 170` <br>
   `ip link add link eth1 name eth1.171 type vlan id 171` <br>
   We use there lines to split the port eth1 in two ports (eth1.170 and eth1.171) to use the VLAN that virtualy split the link. We call the two VLAN with the third 8 bits of IP configuration of the link.
 
-  `ip add add 192.168.170.254/24 dev eth1.170`
+  `ip add add 192.168.170.254/24 dev eth1.170` <br>
   `ip add add 192.168.171.254/27 dev eth1.171`<br>
   With this lines we add the address to the two virtual ports.
 
-  `ip link set eth1.170 up`
+  `ip link set eth1.170 up`<br>
   `ip link set eth1.171 up`<br>
   Now we can use there lines to 'switch on' the two ports.
 
 
 #### IP
+  Router-1 has two different IP address on port eth1.
 
+  From the general IP address 
+
+  We have IP 192.168.170.254 on eth1.170 on the port that link router with host-1-a. This IP is /24 so we can have an IP for all the 130 possible hosts in the net and we can reserved 2 host for the system.  
 
   
 
