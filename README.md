@@ -213,3 +213,6 @@ Ciao
 
   `ip route add 192.168.168.0/21 via 192.168.170.254` <br>
   This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-1 at address 192.168.170.254.
+
+#### IP
+  Host-1-a has an IP address on port eth1 linked to router-1. It's 192.168.170.1 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 252 hosts). 
