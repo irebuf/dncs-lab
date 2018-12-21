@@ -30,30 +30,61 @@ cd dncs-lab
 [~/dncs-lab] vagrant up --provision
 ```
 Once you launch the vagrant script, it may take some minutes (this value depends on you PC power) for the entire topology to become available. Do not worry if during the configuration the display will show you some errors: they won't undermine the machines' functioning.
- - Now you can verify the status of the 4 VMs using the command
+ Now you can verify the status of the 4 VMs using the command
  ```
  [dncs-lab]$ vagrant status      
  ```
  If everything goes weel the terminal will show you                                                                                                                                                          
  ```
 Current machine states:
- ```
-router-1  running (virtualbox)
-router-2  running (virtualbox)
-switch   running (virtualbox)
-host-1-a  running (virtualbox)
-host-1- b  running (virtualbox)
-host-2-c  running (virtualbox)
 
+router-1       running (virtualbox)
+router-2       running (virtualbox)
+switch          running (virtualbox)
+host-1-a      running (virtualbox)
+host-1- b     running (virtualbox)
+host-2-c      running (virtualbox)
+ ```
 The request is to reach a website hosted on `host-2-c` any host configured and attached to `router-1` (`host-1-a` and `host-1-c`). So, once all the VMs are running you can log into `host-1-a` and `host-1-b` using these commands:
 ```
 vagrant ssh host-1-a
 vagrant ssh host-1-b
 ```
+The terminal will show you in each case:
+```
+Welcome to Ubuntu 14.04.3 LTS (GNU/Linux 3.16.0-55-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com/
+Development Environment
+
 Then get the root permission of the two terminals using the command
-`sudo su` 
+`sudo su` .
+```
+In order to browse the website type the command `curl 192.168.172.229`:
+The vagrant response is going to be:
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome on our page!</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1> Welcome on our page!</h1>
+<p>Irene Buffa [185151]<br>Daniele Mattedi [186778]</p>
 
 
+<p><em>Thank you for visiting our page.</em></p>
+</body>
+```
+This is the htlm code of the website hosted on `host-2-c`.
 
 
 # Network Map
