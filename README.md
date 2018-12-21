@@ -337,7 +337,7 @@ lo        Link encap:Local Loopback
  Check if `host-1-b` is working by logging into the router and pinging another device.
 
  ### Host-2-c
- Check if `host-1-b` is working by logging into the router and pinging another device.
+ Check if `host-1-b` is working by logging into the router and pinging another device.<br>
  In this host we installed a docker container. You can see information about it thank to the command
  ```
  docker ps -a
