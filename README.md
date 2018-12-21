@@ -1,5 +1,8 @@
 # DNCS-LAB
 
+#Table of contents
+1. [ Description. ](#Assignment)
+2. [ Usage tips. ](#Requirements)
 <a name="Assignment"></a>
 # Assigment
 Based the `Vagrantfile` and the provisioning scripts available at:
