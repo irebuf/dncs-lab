@@ -29,7 +29,7 @@ more hosts than the one described in the `vagrantfile`):
 cd dncs-lab
 [~/dncs-lab] vagrant up --provision
 ```
-Once you launch the vagrant script, it may take a while for the entire topology to become available.
+Once you launch the vagrant script, it may take some minutes (this value depends on you PC power) for the entire topology to become available. Do not worry if during the configuration the display will show you some errors: they won't undermine the machines' functioning.
  - Now you can verify the status of the 4 VMs using the command
  ```
  [dncs-lab]$ vagrant status      
@@ -38,23 +38,22 @@ Once you launch the vagrant script, it may take a while for the entire topology 
  ```
 Current machine states:
  ```
-router-1 | running (virtualbox)
---- | ---
-router-2 | running (virtualbox)
---- | ---
-switch |  running (virtualbox)
---- | ---
-host-1-a | running (virtualbox)
---- | ---
-host-1- b | running (virtualbox)
---- | ---
-host-2-c | running (virtualbox)
+router-1  running (virtualbox)
+router-2  running (virtualbox)
+switch   running (virtualbox)
+host-1-a  running (virtualbox)
+host-1- b  running (virtualbox)
+host-2-c  running (virtualbox)
 
-- Once all the VMs are running verify you can log into all of them:
-`vagrant ssh router`
-`vagrant ssh switch`
-`vagrant ssh host-a`
-`vagrant ssh host-b`
+The request is to reach a website hosted on `host-2-c` any host configured and attached to `router-1` (`host-1-a` and `host-1-c`). So, once all the VMs are running you can log into `host-1-a` and `host-1-b` using these commands:
+```
+vagrant ssh host-1-a
+vagrant ssh host-1-b
+```
+Then get the root permission of the two terminals using the command
+`sudo su` 
+
+
 
 
 # Network Map
