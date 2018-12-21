@@ -1,17 +1,35 @@
-# DNCS-LAB
+# DNCS-LAB Assignment (2018-2019)
 
 # Table of contents
+- [ Who-we-are ](#Collaborators)
 - [ Assignment ](#Assignment)
 - [ Requirements ](#Requirements)
 - [ Network Map ](#Map)
 - [ Description of subnets ](#Subnets)
   - [ Subnet A ](#A)
+    - [ Router 1 ](#r1-a)
+    - [ Host 1-a ](#h1a-a)
+    - [ Host 1-b ](#h1b-a)
+    - [ Switch ](#s-a)
   - [ Subnet B ](#B)
+    - [ Router 1 ](#r1-b)
+    - [ Router 2 ](#r2-b)   
   - [ Subnet C ](#B)
+    - [ Router 2 ](#r2-c)    
+    - [ Host 2-c ](#h2c-c)
 - [ How-to ](#how)
   - [ Display the website ](#display)
   - [ Test the network ](#test)
-
+    - [ Router 1 ](#r1-h)
+    - [ Router 2 ](#r2-h)    
+    - [ Switch ](#s-h)
+    - [ Host 1-a ](#h1a-h)
+    - [ Host 1-b ](#h1b-h)
+    - [ Host 2-c ](#h2c-h)
+<a name="Collaborators"></a>
+# Who-we-are
+- Daniele Mattedi, III year of "Laurea in Ingegneria dell'Informazione e delle Comunicazioni"
+- Irene Buffa, III year of "Laurea in Ingegneria dell'Informazione e delle Comunicazioni"
 <a name="Assignment"></a>
 # Assigment
 Based the `Vagrantfile` and the provisioning scripts available at:
@@ -109,93 +127,7 @@ The vagrant response is going to be:
 This is the htlm code of the website hosted on `host-2-c`.
 <a name="Test"></a>
 ## Test the network
-### Switch
-Log into the switch using 
-```
-vagrant ssh switch
-```
-```
-sudo su
-```
-In order to show OpenFlow information on the switch (OpenFlow features ans port descriptions) use the command
-```ovs-vsctl show```
-```
-    Bridge switch
-        Port "eth3"
-            tag: 171
-            Interface "eth3"
-        Port switch
-            Interface switch
-                type: internal
-        Port "eth1"
-            Interface "eth1"
-        Port "eth2"
-            tag: 170
-            Interface "eth2"
-    ovs_version: "2.0.2"
-```
-We can see the ports' name and also if they are associated to a VLAN. `Eth1` is a trunk port: it's a link between `switch` and `router-1`. Otherwise `Eth2` and `Eth3` are access port: they take the packets they receive and retag them.
-
-You can also execute the `ifconfig` command for controlling network interface.
-```
-eth0      Link encap:Ethernet  HWaddr 08:00:27:20:c5:44
-          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
-          inet6 addr: fe80::a00:27ff:fe20:c544/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:15948 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:6069 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:14188670 (14.1 MB)  TX bytes:478970 (478.9 KB)
-
-eth1      Link encap:Ethernet  HWaddr 08:00:27:fb:e3:44
-          inet6 addr: fe80::a00:27ff:fefb:e344/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:289 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:789 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:97504 (97.5 KB)  TX bytes:259329 (259.3 KB)
-
-eth2      Link encap:Ethernet  HWaddr 08:00:27:86:53:4a
-          inet6 addr: fe80::a00:27ff:fe86:534a/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:250 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:287 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:83412 (83.4 KB)  TX bytes:96066 (96.0 KB)
-
-eth3      Link encap:Ethernet  HWaddr 08:00:27:fe:9f:5b
-          inet6 addr: fe80::a00:27ff:fefe:9f5b/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:261 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:285 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:84765 (84.7 KB)  TX bytes:94048 (94.0 KB)
-
-lo        Link encap:Local Loopback
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:65536  Metric:1
-          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0
-          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-
-ovs-system Link encap:Ethernet  HWaddr f6:c0:1e:2d:71:74
-          inet6 addr: fe80::f4c0:1eff:fe2d:7174/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0
-          RX bytes:0 (0.0 B)  TX bytes:648 (648.0 B)
-
-switch    Link encap:Ethernet  HWaddr 08:00:27:86:53:4a
-          inet6 addr: fe80::c853:39ff:fe91:e55c/64 Scope:Link
-          UP BROADCAST RUNNING  MTU:1500  Metric:1
-          RX packets:774 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0
-          RX bytes:260250 (260.2 KB)  TX bytes:648 (648.0 B)
-```
+<a name="r1-h"></a>
  ### Router-1
 Log into the router using 
 ```
@@ -292,7 +224,8 @@ lo        Link encap:Local Loopback
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-```      
+```     
+<a name="r2-h"></a> 
  ### Router-2
 As well as `router-1` log into the router and ping another device to look if it's working.
 ```
@@ -344,12 +277,101 @@ lo        Link encap:Local Loopback
           collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 ```
+<a name="s-h"></a>
+### Switch
+Log into the switch using 
+```
+vagrant ssh switch
+```
+```
+sudo su
+```
+In order to show OpenFlow information on the switch (OpenFlow features ans port descriptions) use the command
+```ovs-vsctl show```
+```
+    Bridge switch
+        Port "eth3"
+            tag: 171
+            Interface "eth3"
+        Port switch
+            Interface switch
+                type: internal
+        Port "eth1"
+            Interface "eth1"
+        Port "eth2"
+            tag: 170
+            Interface "eth2"
+    ovs_version: "2.0.2"
+```
+We can see the ports' name and also if they are associated to a VLAN. `Eth1` is a trunk port: it's a link between `switch` and `router-1`. Otherwise `Eth2` and `Eth3` are access port: they take the packets they receive and retag them.
+
+You can also execute the `ifconfig` command for controlling network interface.
+```
+eth0      Link encap:Ethernet  HWaddr 08:00:27:20:c5:44
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe20:c544/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:15948 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:6069 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:14188670 (14.1 MB)  TX bytes:478970 (478.9 KB)
+
+eth1      Link encap:Ethernet  HWaddr 08:00:27:fb:e3:44
+          inet6 addr: fe80::a00:27ff:fefb:e344/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:289 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:789 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:97504 (97.5 KB)  TX bytes:259329 (259.3 KB)
+
+eth2      Link encap:Ethernet  HWaddr 08:00:27:86:53:4a
+          inet6 addr: fe80::a00:27ff:fe86:534a/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:250 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:287 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:83412 (83.4 KB)  TX bytes:96066 (96.0 KB)
+
+eth3      Link encap:Ethernet  HWaddr 08:00:27:fe:9f:5b
+          inet6 addr: fe80::a00:27ff:fefe:9f5b/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:261 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:285 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:84765 (84.7 KB)  TX bytes:94048 (94.0 KB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+ovs-system Link encap:Ethernet  HWaddr f6:c0:1e:2d:71:74
+          inet6 addr: fe80::f4c0:1eff:fe2d:7174/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:648 (648.0 B)
+
+switch    Link encap:Ethernet  HWaddr 08:00:27:86:53:4a
+          inet6 addr: fe80::c853:39ff:fe91:e55c/64 Scope:Link
+          UP BROADCAST RUNNING  MTU:1500  Metric:1
+          RX packets:774 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:260250 (260.2 KB)  TX bytes:648 (648.0 B)
+```
+<a name="h1a-h"></a>
  ### Host-1-a
  Check if `host-1-a` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.
-
+<a name="h1b-h"></a>
  ### Host-1-b
  Check if `host-1-b` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.
-
+<a name="h2c-h"></a>
  ### Host-2-c
  Check if `host-1-b` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.<br>
  In this host we installed a docker container. You can see information about it thank to the command
@@ -429,7 +451,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   On the other side the VLAN that link router-1 to host-1-b has 27 bit reserved for the Net and only 5 for the hosts. In this case we need at least 25 different IP address and the 2^5 (32) address are enough for IP address space, broadcast address and hosts.
   The firt IP has to be use for IP address space and in our configuration is 192.168.171.224, the second 192.168.171.225 the decided to use for port eth1 of host-1-b. We used the second-last 192.168.171.254 for eth1.171 of router-1 and lastly we have to use the last IP 192.168.171.255, with all the last 5 bit ad one for broadcast addess.
 
-
+<a name="r1-a"></a>
 ### Router-1
   We added in the file router-1.sh the following lines:
   ```
@@ -464,7 +486,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   From the general IP address 192.168.168.0 we decide to use the configuration 192.168.170.0/24 for the first VLAN and the configuration 192.168.171.224/27 for the second VLAN.
 
   We have IP 192.168.170.254 on eth1.170 on the port that link router with host-1-a. This IP is /24 so we can have an IP for all the 130 possible hosts in the net and we can reserved 2 host for the system. For eth1.171 we have the IP 192.168.171.254, this address is /27 so we have 32 IP, but only 30 free, for the hosts and they're enough for our system.    
-
+<a name="h1a-a"></a>
 ### Host-1-a
   We add this lines in the file host-1-a.sh:
   ```
@@ -484,7 +506,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
 #### IP
   Host-1-a has an IP address on port eth1 linked to router-1. It's 192.168.170.1 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 252 hosts). 
-
+<a name="h1b-a"></a>
 ### Host-1-b
   We add the following lines in file docker-1b.sh to link the host-1-b to the Network:
   ```
@@ -504,7 +526,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
 #### IP
   Host-1-b has an IP address at port eth1. It's 192.168.171.225. With this address and the port eth1 the host can send packets to all the devices with an IP between 192.168.168.0 and 192.168.175.255 and also recived from these devices. All the packets have to pass through port eth1.171 of router-1 at IP address 192.168.171.254.
-
+<a name="s-a"></a>
 ### Switch
   We add these lines in the file switch.sh to link switch with host-1-a, host-1-b and router-1:
   ```
@@ -537,7 +559,7 @@ We'll call Subnet B the part of our Network that connect the two routers, router
 
 This link has only to connect the two routers, so we decided to use as less bit for hosts as possible. We can't reserved only 1 bit, two addresses to it, because we need 2 address for the routers, one for the address space and one for the broadcast. So we have to use at least 2 bits for hosts' address, and we decided to use exactly 2 bit for have 4 IP address. <br>
 We use 192.168.173.0 for the address space, for the broadcast address we have to use the IP with the last 2 bits at one and in our configuration it's 192.168.173.3. We add IP 192.168.173.1 at eth2 of router-1 and the last IP 192.168.173.2 is the address of eth2 of router-2.
-
+<a name="r1-b"></a>
 ### Router-1
 We add these lines to the file router-1.sh to link the two routers:
 ```
@@ -633,30 +655,31 @@ The router-2 has on port eth2 the IP 192.168.173.2. This is the last free addres
 
 <a name="C"></a>
 ## Subnet C
-  ### Host-2-c 
-  In the file `docker-2c.sh` you can find these commands:
+<a name="r2-c"></a>
+### Router-2
+<a name="h2c-c"></a>
+### Host-2-c 
+In the file `docker-2c.sh` you can find these commands:
 
-  ```
-  ip link set dev eth1 up`
-  ```
-  We add this line to create the port eth1 in the host-2-c.
+```
+ip link set dev eth1 up`
+```
+We add this line to create the port eth1 in the host-2-c.
+```
+ip add add 192.168.172.229/30 dev eth1
+```
+We use this line to add an address to the port eth1; now we can use this port to link the host with other device to send and recive packet.
 
-  ```
-  ip add add 192.168.172.229/30 dev eth1
-  ```
-  We use this line to add an address to the port eth1; now we can use this port to link the host with other device to send and recive packet.
-
-  ```
-  ip route add 192.168.168.0/21 via 192.168.172.230
-  ```
-  This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-2 at address 192.168.172.230.
-  #### IP
-  Host-2-c has an IP address on port eth1 linked to router-2. It's 192.168.172.229 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 4 hosts). 
-  #### Docker
-  We need to set up the Docker repository.  As a precaution, we decided to uninstall older versions of Docker when they were present.
-
-  ```
-  apt-get remove docker docker-engine docker.io
+```
+ip route add 192.168.168.0/21 via 192.168.172.230
+```
+This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-2 at address 192.168.172.230.
+#### IP
+Host-2-c has an IP address on port eth1 linked to router-2. It's 192.168.172.229 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 4 hosts). 
+#### Docker
+We need to set up the Docker repository.  As a precaution, we decided to uninstall older versions of Docker when they were present.
+```
+apt-get remove docker docker-engine docker.io
 apt-get update --assume-yes --force-yes
 apt-get install apt-transport-https --assume-yes --force-yes
 apt-get install ca-certificates --assume-yes --force-yes
