@@ -1,52 +1,24 @@
 # DNCS-LAB
 
-This repository contains the Vagrant files required to run the virtual lab environment used in the DNCS course.
-```
+# Assigment
+Based the `Vagrantfile` and the provisioning scripts available at:
+https://github.com/dustnic/dncs-lab the candidate is required to design a functioning network where
+any host configured and attached to `router-1` (through `switch` ) can browse a website hosted on
+`host-2-c`.
+
+The subnetting needs to be designed to accommodate the following requirement (no need to create
+more hosts than the one described in the `vagrantfile`):
+- Up to 130 hosts in the same subnet of `host-1-a`
+- Up to 25 hosts in the same subnet of `host-1-b`
+- Consume as few IP addresses as possible
 
 
-        +-----------------------------------------------------+
-        |                                                     |
-        |                                                     |eth0
-        +--+--+                +------------+             +------------+
-        |     |                |            |             |            |
-        |     |            eth0|            |eth2     eth2|            |
-        |     +----------------+  router-1  +-------------+  router-2  |
-        |     |                |            |             |            |
-        |     |                |            |             |            |
-        |  M  |                +------------+             +------------+
-        |  A  |                      |eth1                       |eth1 -> 192.168.172.230
-        |  N  |                      |                           |
-        |  A  |                      |                           |eth1 -> 192.168.172.229
-        |  G  |                      |                     +-----+----+
-        |  E  |                      |eth1                 |          |
-        |  M  |            +-------------------+           |          |
-        |  E  |        eth0|                   |           | host-2-c |
-        |  N  +------------+      SWITCH       |           |          |
-        |  T  |            |                   |           |          |
-        |     |            +-------------------+           +----------+
-        |  V  |               |eth2         |eth3                |eth0
-        |  A  |               |             |                    |
-        |  G  |               |             |                    |
-        |  R  |               |eth1         |eth1                |
-        |  A  |        +----------+     +----------+             |
-        |  N  |        |          |     |          |             |
-        |  T  |    eth0|          |     |          |             |
-        |     +--------+ host-1-a |     | host-1-b |             |
-        |     |        |          |     |          |             |
-        |     |        |          |     |          |             |
-        ++-+--+        +----------+     +----------+             |
-        | |                              |eth0                   |
-        | |                              |                       |
-        | +------------------------------+                       |
-        |                                                        |
-        |                                                        |
-        +--------------------------------------------------------+
-
-
-
-```
-
-
+# Requirements
+ - 10GB disk storage
+ - 2GB free RAM
+ - Virtualbox
+ - Vagrant (https://www.vagrantup.com)
+ - Internet
 
 # How-to
  - Install Virtualbox and Vagrant
@@ -74,26 +46,6 @@ host-b                    running (virtualbox)
 `vagrant ssh host-a`
 `vagrant ssh host-b`
 
-
-# Assigment
-Based the `Vagrantfile` and the provisioning scripts available at:
-https://github.com/dustnic/dncs-lab the candidate is required to design a functioning network where
-any host configured and attached to `router-1` (through `switch` ) can browse a website hosted on
-`host-2-c`.
-
-The subnetting needs to be designed to accommodate the following requirement (no need to create
-more hosts than the one described in the `vagrantfile`):
-- Up to 130 hosts in the same subnet of `host-1-a`
-- Up to 25 hosts in the same subnet of `host-1-b`
-- Consume as few IP addresses as possible
-
-
-# Requirements
- - 10GB disk storage
- - 2GB free RAM
- - Virtualbox
- - Vagrant (https://www.vagrantup.com)
- - Internet
 
 # The Network
   All the device of our Network can be reach using the broadcast address 192.168.168.000 and the subnet mask is 255.255.248.000.
