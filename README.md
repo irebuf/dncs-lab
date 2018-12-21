@@ -449,8 +449,20 @@ lo        Link encap:Local Loopback
 ### Switch
   We add these lines in the file switch.sh to link switch with host-1-a, host-1-b and router-1:
   ```
+   ovs-vsctl add-br switch
+   ovs-vsctl add-port switch eth1
+   ovs-vsctl add-port switch eth2 tag=170
+   ovs-vsctl add-port switch eth3 tag=171
    ip link set dev eth1 up
    ip link set dev eth2 up
    ip link set dev eth3 up
+   ip link set ovs-system up
   ```
+
+  `ovs-vsctl add-br switch`<br>
+  We need this line to configure the switch and use it like a bridge that connect hosts and router
+
+  `ip link set dev eth1 up`
+  `ip link set dev eth2 up`
+  `ip link set dev eth3 up`
   These lines need to create and switch on the three port eth1, eth2 and eth3 that connect switch with the other devices. Now we can send packets thought switch.
