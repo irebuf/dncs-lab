@@ -57,7 +57,7 @@ host-2-c | running (virtualbox)
 `vagrant ssh host-b`
 
 
-# The Network
+# Network Map
   All the device of our Network can be reach using the broadcast address 192.168.168.000 and the subnet mask is 255.255.248.000.
   The Network can also be divid in three Subnetwork. 
 
@@ -111,3 +111,11 @@ host-2-c | running (virtualbox)
   In the first (A) there are host-1-a, host-1-b, switch and router-1; This net is split in two vlan. The vlan with the tag 170 link router-1 with host-1-a, on the other side we have vlan 171 that link always router-1 with host-1-b. <br>
   The second (B) Subnetwork link the two router of the topology eachother. <br>
   In the last one, the third (C) the net link router-2 with host-2-c.
+
+## Subnet A
+    We'll call subnet A the part of the network in which we can find router1, switch host1a and host 1b. We split the link between the port eth1 of the router and the port eth1 of the switch in two vlan, so we can use the same fisical link to connect two different host through the switch.
+
+    The VLAN that link router1 to host 1-a has 24 bit reserved and only 8 bit for the hostes but its enough for our configuration. In fact we have 2^8 different IP address, but we can't use all it. We have to reserved 2 IP, the first one 192.168.170.0 is for IP address space (it has all the last 8 bit at zero) and the last one is the broadcast address 192.168.170.255 (it has all the last 8 bit at one). We decided to use the first free IP address for the port eth1 of the host-1-a (192.168.170.1)  and the last free for the port eth1.170 of the router (192.168.170.254).
+
+
+    Its IP address space is 192.168.168.0, the subnet mask is 255.255.175.000 and the broadcast address is 192.168.175.255; so we have 21 bit for the net and we use only 
