@@ -24,7 +24,7 @@ more hosts than the one described in the `vagrantfile`):
 ## Display the website
  - Install Virtualbox and Vagrant
  - Clone this repository
-`git clone https://github.com/dustnic/dncs-lab`
+`git clone https://github.com/mattybass/dncs-lab`
  - You should be able to launch the lab from within the cloned repo folder.
 ```
 cd dncs-lab
@@ -209,7 +209,22 @@ PING 192.168.171.225 (192.168.171.225) 56(84) bytes of data.
 5 packets transmitted, 5 received, 0% packet loss, time 4012ms
 rtt min/avg/max/mdev = 3.234/5.658/8.085/1.921 ms
 ```
+You can also check the routing table, which is configurend thanks to ospf routing protocol.
+```
+route -nve
+```
+```
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+0.0.0.0         10.0.2.2        0.0.0.0         UG        0 0          0 eth0
+10.0.2.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0
+192.168.170.0   0.0.0.0         255.255.255.0   U         0 0          0 eth1.170
+192.168.171.224 0.0.0.0         255.255.255.224 U         0 0          0 eth1.171
+192.168.172.228 192.168.173.2   255.255.255.252 UG        0 0          0 eth2
+192.168.173.0   0.0.0.0         255.255.255.252 U         0 0          0 eth2
+```
 You can also execute the `ifconfig` command.
+
 ```
 eth0      Link encap:Ethernet  HWaddr 08:00:27:20:c5:44
           inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
@@ -266,8 +281,18 @@ lo        Link encap:Local Loopback
 ```      
  ### Router-2
 As well as `router-1` log into the router and ping another device to look if it's working.
+```
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+0.0.0.0         10.0.2.2        0.0.0.0         UG        0 0          0 eth0
+10.0.2.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0
+192.168.170.0   192.168.173.1   255.255.255.0   UG        0 0          0 eth2
+192.168.171.224 192.168.173.1   255.255.255.224 UG        0 0          0 eth2
+192.168.172.228 0.0.0.0         255.255.255.252 U         0 0          0 eth1
+192.168.173.0   0.0.0.0         255.255.255.252 U         0 0          0 eth2
+```
 
-You can also execute the `ifconfig` command.
+You can also check the routing table execute the `ifconfig` command.
 ```
 eth0      Link encap:Ethernet  HWaddr 08:00:27:20:c5:44
           inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
@@ -305,6 +330,23 @@ lo        Link encap:Local Loopback
           collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 ```
+ ### Host-1-a
+ Check if `host-1-a` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.
+
+ ### Host-1-b
+ Check if `host-1-b` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.
+
+ ### Host-2-c
+ Check if `host-1-b` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.<br>
+ In this host we installed a docker container. You can see information about it thank to the command
+ ```
+ docker ps -a
+ ```
+We can see some basic information about our container.
+ ```
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                NAMES
+390e0079bb45        nginx               "nginx -g 'daemon of…"   4 hours ago         Up 4 hours          0.0.0.0:80->80/tcp   docker-nginx
+ ```
 
 # Network Map
   All the device of our Network can be reach using the broadcast address 192.168.168.000 and the subnet mask is 255.255.248.000.
