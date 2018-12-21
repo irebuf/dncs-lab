@@ -515,7 +515,23 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   These lines need to create and switch on the three port eth1, eth2 and eth3 that connect switch with the other devices. Now we can send packets thought switch.
 
   ## Subnet C
-  ### Host-2-c
+  ### Host-2-c 
+  In the file `docker-2c.sh` you can find these commands:
+
+  ```
+  ip link set dev eth1 up`
+  ```
+  We add this line to create the port eth1 in the host-2-c.
+
+  ```
+  ip add add 192.168.172.229/30 dev eth1
+  ```
+  We use this line to add an address to the port eth1; now we can use this port to link the host with other device to send and recive packet.
+
+  ```
+  ip route add 192.168.168.0/21 via 192.168.172.230
+  ```
+  This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-2 at address 192.168.172.230.
   #### Docker
   We need to set up the Docker repository.  As a precaution, we decided to uninstall older versions of Docker when they were present.
   ```
@@ -546,9 +562,10 @@ The file is first cleaned and then we put the website's  html code site into it.
 truncate -s 0 index.html
 echo " -----  " >> index.html
 ```
-FInally we link the container to the local filesystem by creating a new Nginx container (our virtual machine will be located in the port 80).
+FInally we link the container to the local filesystem by creating a new Nginx container (our virtual machine will be located in port 80).
 ```
 docker rm docker-nginx
 docker run --name docker-nginx -p 80:80 -d -v ~/docker-nginx/html:/usr/share/nginx/html nginx
 ```
+
 
