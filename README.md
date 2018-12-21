@@ -11,6 +11,12 @@
 - [ How-to ](#how)
   - [ Display the website ](#display)
   - [ Test the network ](#test)
+    - [ Router 1 ](#r1-h)
+    - [ Router 2 ](#r2-h)    
+    - [ Switch ](#s-h)
+    - [ Host 1-a ](#h1a-h)
+    - [ Host 1-b ](#h1b-h)
+    - [ Host 2-c ](#h2c-h)
 
 <a name="Assignment"></a>
 # Assigment
@@ -109,93 +115,7 @@ The vagrant response is going to be:
 This is the htlm code of the website hosted on `host-2-c`.
 <a name="Test"></a>
 ## Test the network
-### Switch
-Log into the switch using 
-```
-vagrant ssh switch
-```
-```
-sudo su
-```
-In order to show OpenFlow information on the switch (OpenFlow features ans port descriptions) use the command
-```ovs-vsctl show```
-```
-    Bridge switch
-        Port "eth3"
-            tag: 171
-            Interface "eth3"
-        Port switch
-            Interface switch
-                type: internal
-        Port "eth1"
-            Interface "eth1"
-        Port "eth2"
-            tag: 170
-            Interface "eth2"
-    ovs_version: "2.0.2"
-```
-We can see the ports' name and also if they are associated to a VLAN. `Eth1` is a trunk port: it's a link between `switch` and `router-1`. Otherwise `Eth2` and `Eth3` are access port: they take the packets they receive and retag them.
-
-You can also execute the `ifconfig` command for controlling network interface.
-```
-eth0      Link encap:Ethernet  HWaddr 08:00:27:20:c5:44
-          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
-          inet6 addr: fe80::a00:27ff:fe20:c544/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:15948 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:6069 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:14188670 (14.1 MB)  TX bytes:478970 (478.9 KB)
-
-eth1      Link encap:Ethernet  HWaddr 08:00:27:fb:e3:44
-          inet6 addr: fe80::a00:27ff:fefb:e344/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:289 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:789 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:97504 (97.5 KB)  TX bytes:259329 (259.3 KB)
-
-eth2      Link encap:Ethernet  HWaddr 08:00:27:86:53:4a
-          inet6 addr: fe80::a00:27ff:fe86:534a/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:250 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:287 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:83412 (83.4 KB)  TX bytes:96066 (96.0 KB)
-
-eth3      Link encap:Ethernet  HWaddr 08:00:27:fe:9f:5b
-          inet6 addr: fe80::a00:27ff:fefe:9f5b/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:261 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:285 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:84765 (84.7 KB)  TX bytes:94048 (94.0 KB)
-
-lo        Link encap:Local Loopback
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:65536  Metric:1
-          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0
-          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-
-ovs-system Link encap:Ethernet  HWaddr f6:c0:1e:2d:71:74
-          inet6 addr: fe80::f4c0:1eff:fe2d:7174/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0
-          RX bytes:0 (0.0 B)  TX bytes:648 (648.0 B)
-
-switch    Link encap:Ethernet  HWaddr 08:00:27:86:53:4a
-          inet6 addr: fe80::c853:39ff:fe91:e55c/64 Scope:Link
-          UP BROADCAST RUNNING  MTU:1500  Metric:1
-          RX packets:774 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0
-          RX bytes:260250 (260.2 KB)  TX bytes:648 (648.0 B)
-```
+<a name="r1-h"></a>
  ### Router-1
 Log into the router using 
 ```
@@ -292,7 +212,8 @@ lo        Link encap:Local Loopback
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-```      
+```     
+<a name="r2-h"></a> 
  ### Router-2
 As well as `router-1` log into the router and ping another device to look if it's working.
 ```
@@ -344,12 +265,101 @@ lo        Link encap:Local Loopback
           collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 ```
+<a name="s-h"></a>
+### Switch
+Log into the switch using 
+```
+vagrant ssh switch
+```
+```
+sudo su
+```
+In order to show OpenFlow information on the switch (OpenFlow features ans port descriptions) use the command
+```ovs-vsctl show```
+```
+    Bridge switch
+        Port "eth3"
+            tag: 171
+            Interface "eth3"
+        Port switch
+            Interface switch
+                type: internal
+        Port "eth1"
+            Interface "eth1"
+        Port "eth2"
+            tag: 170
+            Interface "eth2"
+    ovs_version: "2.0.2"
+```
+We can see the ports' name and also if they are associated to a VLAN. `Eth1` is a trunk port: it's a link between `switch` and `router-1`. Otherwise `Eth2` and `Eth3` are access port: they take the packets they receive and retag them.
+
+You can also execute the `ifconfig` command for controlling network interface.
+```
+eth0      Link encap:Ethernet  HWaddr 08:00:27:20:c5:44
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe20:c544/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:15948 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:6069 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:14188670 (14.1 MB)  TX bytes:478970 (478.9 KB)
+
+eth1      Link encap:Ethernet  HWaddr 08:00:27:fb:e3:44
+          inet6 addr: fe80::a00:27ff:fefb:e344/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:289 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:789 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:97504 (97.5 KB)  TX bytes:259329 (259.3 KB)
+
+eth2      Link encap:Ethernet  HWaddr 08:00:27:86:53:4a
+          inet6 addr: fe80::a00:27ff:fe86:534a/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:250 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:287 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:83412 (83.4 KB)  TX bytes:96066 (96.0 KB)
+
+eth3      Link encap:Ethernet  HWaddr 08:00:27:fe:9f:5b
+          inet6 addr: fe80::a00:27ff:fefe:9f5b/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:261 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:285 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:84765 (84.7 KB)  TX bytes:94048 (94.0 KB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+ovs-system Link encap:Ethernet  HWaddr f6:c0:1e:2d:71:74
+          inet6 addr: fe80::f4c0:1eff:fe2d:7174/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:648 (648.0 B)
+
+switch    Link encap:Ethernet  HWaddr 08:00:27:86:53:4a
+          inet6 addr: fe80::c853:39ff:fe91:e55c/64 Scope:Link
+          UP BROADCAST RUNNING  MTU:1500  Metric:1
+          RX packets:774 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:260250 (260.2 KB)  TX bytes:648 (648.0 B)
+```
+<a name="h1a-h"></a>
  ### Host-1-a
  Check if `host-1-a` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.
-
+<a name="h1b-h"></a>
  ### Host-1-b
  Check if `host-1-b` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.
-
+<a name="h2c-h"></a>
  ### Host-2-c
  Check if `host-1-b` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.<br>
  In this host we installed a docker container. You can see information about it thank to the command
