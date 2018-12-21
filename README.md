@@ -94,7 +94,7 @@ The vagrant response is going to be:
 ```
 This is the htlm code of the website hosted on `host-2-c`.
 
-## Test the net
+## Test the network
 ### Switch
 Log into the switch using 
 ```
@@ -534,3 +534,21 @@ add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(
 apt-get update
 apt-get install -y docker-ce --assume-yes --force-yes
 ```
+The next step is to build a web page to serve on nginx: we'll create a custom index page for our website.
+We create a new directory for our website content within our home directory, and move to it, by running the commands shown below. Then we use the text editor touch to create an HTML file.
+```
+mkdir -p ~/docker-nginx/html
+cd ~/docker-nginx/html
+touch index.html
+```
+The file is first cleaned and then we put the website's  html code site into it.
+```
+truncate -s 0 index.html
+echo " -----  " >> index.html
+```
+FInally we link the container to the local filesystem by creating a new Nginx container (our virtual machine will be located in the port 80).
+```
+docker rm docker-nginx
+docker run --name docker-nginx -p 80:80 -d -v ~/docker-nginx/html:/usr/share/nginx/html nginx
+```
+
