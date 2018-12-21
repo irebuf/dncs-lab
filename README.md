@@ -21,6 +21,7 @@ more hosts than the one described in the `vagrantfile`):
  - Internet
 
 # How-to
+##Display the website
  - Install Virtualbox and Vagrant
  - Clone this repository
 `git clone https://github.com/dustnic/dncs-lab`
@@ -61,7 +62,7 @@ Development Environment
 ```
 Then get the root permission of the two terminals using the command
 ```
-sudo su` 
+sudo su
 ```
 
 In order to browse the website type the command
@@ -91,6 +92,8 @@ The vagrant response is going to be:
 ```
 This is the htlm code of the website hosted on `host-2-c`.
 
+##Test the net
+Ciao
 
 # Network Map
   All the device of our Network can be reach using the broadcast address 192.168.168.000 and the subnet mask is 255.255.248.000.
