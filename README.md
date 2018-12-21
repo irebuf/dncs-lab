@@ -585,7 +585,50 @@ vtysh -c 'configure terminal' -c 'router ospf' -c 'redistribute connected'  -c '
 ```
 These lines are used to configure in the right way the FRR and allow to link correctly the two router and consequently the different Subnet.
 
+#### IP
+Router-1 has an IP on port eth2 and it's 192.168.173.1. This IP is allowed from the configuration of our network, infact it's inside the address space 192.168.168.0/21. We can't use the first IP address of the Subnet (192.168.173.0) because it's reserved to address space.
 
+### Router-2
+We add the following lines to router-2.sh file that are necessary to link the two router:
+```
+apt-get install -y frr --assume-yes --force-yes
+ip link set dev eth2 up
+ip add add 192.168.173.2/30 dev eth2
+ip link set eth2 up
+sysctl net.ipv4.ip_forward=1
+sed -i "s/\(zebra *= *\). */\1yes/" /etc/frr/daemons
+sed -i "s/\(ospfd *= *\). */\1yes/" /etc/frr/daemons
+service frr restart
+vtysh -c 'configure terminal' -c 'router ospf' -c 'redistribute connected'  -c 'exit' -c 'interface eth2' -c 'ip ospf area 0.0.0.0' -c 'exit' -c 'exit' -c 'write'
+```
+
+```
+apt-get install -y frr --assume-yes --force-yes
+```
+We use this line to install correctly the FRRouting that, link in the Router-1, allow to link the two router.
+
+```
+ip link set dev eth2 up
+ip add add 192.168.173.2/30 dev eth2
+ip link set eth2 up
+```
+We need these line to create the port eth2 of router-2 and add its the address 192.168.173.2.
+
+```
+sysctl net.ipv4.ip_forward=1
+```
+We used this line to enable the forwarding that is necessary to send each packet to the correct port.
+
+```
+sed -i "s/\(zebra *= *\). */\1yes/" /etc/frr/daemons
+sed -i "s/\(ospfd *= *\). */\1yes/" /etc/frr/daemons
+service frr restart
+vtysh -c 'configure terminal' -c 'router ospf' -c 'redistribute connected'  -c 'exit' -c 'interface eth2' -c 'ip ospf area 0.0.0.0' -c 'exit' -c 'exit' -c 'write'
+```
+We use these lines to configure the FRR for link correctly the two router and consequently the all the Network.
+
+#### IP
+The router-2 has on port eth2 the IP 192.168.173.2. This is the last free address; this Subnet has 30 bits used for the net and only the last 2 for hosts. With two bits we have 4 different address, two of them are used for address space and broadcast and the other two are used for the routers. 
 
 
 <a name="C"></a>
