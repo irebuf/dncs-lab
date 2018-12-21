@@ -508,3 +508,24 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   `ip link set dev eth2 up`
   `ip link set dev eth3 up`
   These lines need to create and switch on the three port eth1, eth2 and eth3 that connect switch with the other devices. Now we can send packets thought switch.
+
+  ## Subnet C
+  ### Host-2-c
+  #### Docker
+  We need to set up the Docker repository.  As a precaution, we decided to uninstall older versions of Docker when they were present.
+  ```
+  apt-get remove docker docker-engine docker.io
+apt-get update --assume-yes --force-yes
+apt-get install apt-transport-https --assume-yes --force-yes
+apt-get install ca-certificates --assume-yes --force-yes
+apt-get install curl --assume-yes --force-yes
+apt-get install software-properties-common --assume-yes --force-yes
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+```
+
+Now we can install and update Docker from the repository.
+```
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get update
+apt-get install -y docker-ce --assume-yes --force-yes
+```
