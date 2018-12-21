@@ -154,14 +154,15 @@ This is the htlm code of the website hosted on `host-2-c`.
 
 ### Router-1
   We added in the file router-1.sh the following lines:
-
-  `ip link set dev eth1 up
+  ```
+   ip link set dev eth1 up
    ip link add link eth1 name eth1.170 type vlan id 170
    ip link add link eth1 name eth1.171 type vlan id 171
    ip add add 192.168.170.254/24 dev eth1.170
    ip add add 192.168.171.254/27 dev eth1.171
    ip link set eth1.170 up
-   ip link set eth1.171 up`
+   ip link set eth1.171 up
+   ```
 
   `ip link set dev eth1 up` 
   We need this line to create the port eth1 that is link to the switch.
