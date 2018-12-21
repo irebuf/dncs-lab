@@ -24,7 +24,7 @@ more hosts than the one described in the `vagrantfile`):
 ## Display the website
  - Install Virtualbox and Vagrant
  - Clone this repository
-`git clone https://github.com/dustnic/dncs-lab`
+`git clone https://github.com/mattybass/dncs-lab`
  - You should be able to launch the lab from within the cloned repo folder.
 ```
 cd dncs-lab
