@@ -96,6 +96,13 @@ This is the htlm code of the website hosted on `host-2-c`.
 
 ## Test the net
 ### Switch
+Log into the switch using 
+```
+vagrant ssh switch
+```
+```
+sudo su
+```
 In order to show OpenFlow information on the switch (OpenFlow features ans port descriptions) use the command
 ```ovs-vsctl show```
 ```
@@ -113,7 +120,7 @@ In order to show OpenFlow information on the switch (OpenFlow features ans port 
             Interface "eth2"
     ovs_version: "2.0.2"
 ```
-We can see the ports' name and also if they are associated to a VLAN. `Eth1` is a trunk port: it's a link between `switch` and `router-1`. Otherwise `Eth2` and `Eth3` are access port: they take the packets they receive and retags them.
+We can see the ports' name and also if they are associated to a VLAN. `Eth1` is a trunk port: it's a link between `switch` and `router-1`. Otherwise `Eth2` and `Eth3` are access port: they take the packets they receive and retag them.
 
 You can also execute the `ifconfig` command for controlling network interface.
 ```
