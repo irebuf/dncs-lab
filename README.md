@@ -513,3 +513,9 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
   `ip link set dev eth2 up` <br>
   `ip link set dev eth3 up` <br>
   These lines need to create and switch on the three port eth1, eth2 and eth3 that connect switch with the other devices. Now we can send packets thought switch.
+
+## Subnet B
+We'll call Subnet B the part of our Network that connect the two routers, router-1 and router-2. This link is necessary to connect the hosts in the Subnet A to the hosts in the Subnet C, so all the devices of our Net can send and recived packets for all the other devices.
+
+This link has only to connect the two routers, so we decided to use as less bit for hosts as possible. We can't reserved only 1 bit, two addresses to it, because we need 2 address for the routers, one for the address space and one for the broadcast. So we have to use at least 2 bits for hosts' address, and we decided to use exactly 2 bit for have 4 IP address. <br>
+We use 192.168.173.0 for the address space, for the broadcast address we have to use the IP with the last 2 bits at one and in our configuration it's 192.168.173.3. We add IP 192.168.173.1 at eth2 of router-1 and the last IP 192.168.173.2 is the address of eth2 of router-2.
