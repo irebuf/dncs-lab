@@ -183,9 +183,9 @@ switch    Link encap:Ethernet  HWaddr 08:00:27:86:53:4a
           RX bytes:260250 (260.2 KB)  TX bytes:648 (648.0 B)
 ```
  ### Router-1
-Log into the switch using 
+Log into the router using 
 ```
-vagrant ssh switch
+vagrant ssh router-1
 ```
 ```
 sudo su
@@ -263,7 +263,49 @@ lo        Link encap:Local Loopback
           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:0
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-```          
+```      
+ ### Router-2
+As well as `router-1` log into the router and ping another device to look if it's working.
+
+You can also execute the `ifconfig` command.
+```
+eth0      Link encap:Ethernet  HWaddr 08:00:27:20:c5:44
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe20:c544/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:25042 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:9539 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:23119005 (23.1 MB)  TX bytes:712269 (712.2 KB)
+
+eth1      Link encap:Ethernet  HWaddr 08:00:27:60:7a:b6
+          inet addr:192.168.172.230  Bcast:0.0.0.0  Mask:255.255.255.252
+          inet6 addr: fe80::a00:27ff:fe60:7ab6/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:352 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:413 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:119050 (119.0 KB)  TX bytes:136749 (136.7 KB)
+
+eth2      Link encap:Ethernet  HWaddr 08:00:27:44:c8:3e
+          inet addr:192.168.173.2  Bcast:0.0.0.0  Mask:255.255.255.252
+          inet6 addr: fe80::a00:27ff:fe44:c83e/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1374 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:1368 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:215353 (215.3 KB)  TX bytes:211188 (211.1 KB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+```
+
 # Network Map
   All the device of our Network can be reach using the broadcast address 192.168.168.000 and the subnet mask is 255.255.248.000.
   The Network can also be divid in three Subnetwork. 
