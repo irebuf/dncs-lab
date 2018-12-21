@@ -94,7 +94,7 @@ The vagrant response is going to be:
 ```
 This is the htlm code of the website hosted on `host-2-c`.
 
-## Test the net
+## Test the network
 ### Switch
 Log into the switch using 
 ```
@@ -519,3 +519,42 @@ We'll call Subnet B the part of our Network that connect the two routers, router
 
 This link has only to connect the two routers, so we decided to use as less bit for hosts as possible. We can't reserved only 1 bit, two addresses to it, because we need 2 address for the routers, one for the address space and one for the broadcast. So we have to use at least 2 bits for hosts' address, and we decided to use exactly 2 bit for have 4 IP address. <br>
 We use 192.168.173.0 for the address space, for the broadcast address we have to use the IP with the last 2 bits at one and in our configuration it's 192.168.173.3. We add IP 192.168.173.1 at eth2 of router-1 and the last IP 192.168.173.2 is the address of eth2 of router-2.
+
+  ## Subnet C
+  ### Host-2-c
+  #### Docker
+  We need to set up the Docker repository.  As a precaution, we decided to uninstall older versions of Docker when they were present.
+  ```
+  apt-get remove docker docker-engine docker.io
+apt-get update --assume-yes --force-yes
+apt-get install apt-transport-https --assume-yes --force-yes
+apt-get install ca-certificates --assume-yes --force-yes
+apt-get install curl --assume-yes --force-yes
+apt-get install software-properties-common --assume-yes --force-yes
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+```
+
+Now we can install and update Docker from the repository.
+```
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get update
+apt-get install -y docker-ce --assume-yes --force-yes
+```
+The next step is to build a web page to serve on nginx: we'll create a custom index page for our website.
+We create a new directory for our website content within our home directory, and move to it, by running the commands shown below. Then we use the text editor touch to create an HTML file.
+```
+mkdir -p ~/docker-nginx/html
+cd ~/docker-nginx/html
+touch index.html
+```
+The file is first cleaned and then we put the website's  html code site into it.
+```
+truncate -s 0 index.html
+echo " -----  " >> index.html
+```
+FInally we link the container to the local filesystem by creating a new Nginx container (our virtual machine will be located in the port 80).
+```
+docker rm docker-nginx
+docker run --name docker-nginx -p 80:80 -d -v ~/docker-nginx/html:/usr/share/nginx/html nginx
+```
+
