@@ -446,10 +446,10 @@ In the last one (C),  the net links `router-2` with `host-2-c`.
 Subnet A is  the part of the network in which we can find `router-1`, `switch`, `host-1-a` and `host-1-b`. We split the link between the port eth1 of the router and the port eth1 of the switch in two vLans, so we can use the same physical link to connect two different hosts through the switch.
 
 The VLAN that links `router-1` to `host-1-a` has 24 bit reserved and only 8 bit dedicated to the hosts but its enough for our configuration. Even if we have 2^8 (256) different IP address, we can't use all it. 2 IPs are reserved: the first one (192.168.170.0) is for IP address space (it has all the last 8 bit at zero) and the last one (192.168.170.255) is the broadcast address (it has all the last 8 bit at one). We decided to use the first free IP address for the port eth1 of the host-1-a (192.168.170.1) and the last free for the port eth1.170 of the router (192.168.170.254).
-Even thought 254 different IP adress are enough for the assigment request of 130 hosts. If we had used 7 bits for host we would have only 128 different IP address.
+he request for router-1 was to have 130 possibily hosts to use. Using 7 bits for host we would have had only 128 different IPs addresses: they were not enought for our configuration. So we opt to use 8 bit (254 possibile hosts to use).
 
-On the other side the VLAN that link router-1 to host-1-b has 27 bit reserved for the Net and only 5 for the hosts. In this case we need at least 25 different IP address and the 2^5 (32) address are enough for IP address space, broadcast address and hosts.
-The firt IP has to be use for IP address space and in our configuration is 192.168.171.224, the second 192.168.171.225 the decided to use for port eth1 of host-1-b. We used the second-last 192.168.171.254 for eth1.171 of router-1 and lastly we have to use the last IP 192.168.171.255, with all the last 5 bit ad one for broadcast addess.
+On the other side the VLAN that link `router-1` to `host-1-b` has 27 bit reserved for the Net and only 5 for the hosts. In this case we need at least 25 different IP addresses and the 2^5 (32) addresses are enough for IP address space, broadcast address and hosts.
+The first IP has to be used for IP address space and in our configuration is 192.168.171.224; the second is 192.168.171.225 and we decided to use for port eth1 of `host-1-b`. We used the second-last 192.168.171.254 for eth1.171 of `router-1` and finally we have to use the last IP 192.168.171.255, with all the last 5 bit ad 1 for broadcast addess.
 
 <a name="r1-a"></a>
 ### Router-1
@@ -466,12 +466,12 @@ ip link set eth1.171 up
 ```
 ip link set dev eth1 up
 ```
-We need this line to create the port eth1 that is link to the switch.
+We need this line to create the port eth1 that is linked to the switch.
 ```
 ip link add link eth1 name eth1.170 type vlan id 170
 ip link add link eth1 name eth1.171 type vlan id 171
 ```
-We use these lines to split the port eth1 in two ports (eth1.170 and eth1.171) to use the VLAN that virtualy split the link. We call the two VLAN with the third 8 bits of IP configuration of the link.
+We use these lines to split the port eth1 in two ports (eth1.170 and eth1.171): so VLAN virtually splits the link. We call the two VLANs with the third 8 bits of IP configuration of the link.
 ```
 ip add add 192.168.170.254/24 dev eth1.170
 ip add add 192.168.171.254/27 dev eth1.171
