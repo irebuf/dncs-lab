@@ -430,7 +430,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
   `ip link add link eth1 name eth1.170 type vlan id 170` <br>
   `ip link add link eth1 name eth1.171 type vlan id 171` <br>
-  We use there lines to split the port eth1 in two ports (eth1.170 and eth1.171) to use the VLAN that virtualy split the link. We call the two VLAN with the third 8 bits of IP configuration of the link.
+  We use these lines to split the port eth1 in two ports (eth1.170 and eth1.171) to use the VLAN that virtualy split the link. We call the two VLAN with the third 8 bits of IP configuration of the link.
 
   `ip add add 192.168.170.254/24 dev eth1.170` <br>
   `ip add add 192.168.171.254/27 dev eth1.171`<br>
@@ -438,7 +438,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
   `ip link set eth1.170 up`<br>
   `ip link set eth1.171 up`<br>
-  Now we can use there lines to 'switch on' the two ports.
+  Now we can use these lines to 'switch on' the two ports.
 
 
 #### IP
@@ -467,3 +467,32 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 
 #### IP
   Host-1-a has an IP address on port eth1 linked to router-1. It's 192.168.170.1 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 252 hosts). 
+
+### Host-1-b
+  We add the following lines in file docker-1b.sh to link the host-1-b to the Network:
+  ```
+   ip link set dev eth1 up
+   ip add add 192.168.171.225/27 dev eth1
+   ip route add 192.168.168.0/21 via 192.168.171.254
+   ```
+  
+  `ip link set dev eth1 up` <br>
+  We use this line to create the port eth1 of host-1-b. It's necessary to link the host with the Net.
+
+  `ip add add 192.168.171.225/27 dev eth1` <br>
+  We add the IP address 192.168.171.225 with this line at host-1-b's port eth1.
+
+  `ip route add 192.168.168.0/21 via 192.168.171.254` <br>
+  With this line we add the route that all packets with an address of configuration 192.168.168.0/21 have to do to reach the right destination. All these packets have to travel through port eth1.171 of router that has IP 192.168.171.254.
+
+#### IP
+  Host-1-b has an IP address at port eth1. It's 192.168.171.225. With this address and the port eth1 the host can send packets to all the devices with an IP between 192.168.168.0 and 192.168.175.255 and also recived from these devices. All the packets have to pass through port eth1.171 of router-1 at IP address 192.168.171.254.
+
+### Switch
+  We add these lines in the file switch.sh to link switch with host-1-a, host-1-b and router-1:
+  ```
+   ip link set dev eth1 up
+   ip link set dev eth2 up
+   ip link set dev eth3 up
+  ```
+  These lines need to create and switch on the three port eth1, eth2 and eth3 that connect switch with the other devices. Now we can send packets thought switch.
