@@ -66,7 +66,9 @@ sudo su
 ```
 
 In order to browse the website type the command
-```curl 192.168.172.229````
+```
+curl 192.168.172.229
+```
 The vagrant response is going to be:
 
 ```
