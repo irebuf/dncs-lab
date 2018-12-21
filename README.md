@@ -96,6 +96,13 @@ This is the htlm code of the website hosted on `host-2-c`.
 
 ## Test the net
 ### Switch
+Log into the switch using 
+```
+vagrant ssh switch
+```
+```
+sudo su
+```
 In order to show OpenFlow information on the switch (OpenFlow features ans port descriptions) use the command
 ```ovs-vsctl show```
 ```
@@ -113,7 +120,7 @@ In order to show OpenFlow information on the switch (OpenFlow features ans port 
             Interface "eth2"
     ovs_version: "2.0.2"
 ```
-We can see the ports' name and also if they are associated to a VLAN. `Eth1` is a trunk port: it's a link between `switch` and `router-1`. Otherwise `Eth2` and `Eth3` are access port: they take the packets they receive and retags them.
+We can see the ports' name and also if they are associated to a VLAN. `Eth1` is a trunk port: it's a link between `switch` and `router-1`. Otherwise `Eth2` and `Eth3` are access port: they take the packets they receive and retag them.
 
 You can also execute the `ifconfig` command for controlling network interface.
 ```
@@ -175,7 +182,129 @@ switch    Link encap:Ethernet  HWaddr 08:00:27:86:53:4a
           collisions:0 txqueuelen:0
           RX bytes:260250 (260.2 KB)  TX bytes:648 (648.0 B)
 ```
- ### Router-1-b
+ ### Router-1
+Log into the router using 
+```
+vagrant ssh router-1
+```
+```
+sudo su
+```
+In order to look if `router-1` is working you can ping (use the command `ping` followed by the IP-address of the host/router you want to check.
+
+For example pinging the `host-1-b`
+```
+ping 192.168.171.225
+```
+ you are going to have a response like that
+```
+PING 192.168.171.225 (192.168.171.225) 56(84) bytes of data.
+64 bytes from 192.168.171.225: icmp_seq=1 ttl=64 time=8.08 ms
+64 bytes from 192.168.171.225: icmp_seq=2 ttl=64 time=3.23 ms
+64 bytes from 192.168.171.225: icmp_seq=3 ttl=64 time=5.30 ms
+64 bytes from 192.168.171.225: icmp_seq=4 ttl=64 time=7.64 ms
+64 bytes from 192.168.171.225: icmp_seq=5 ttl=64 time=4.03 ms
+
+--- 192.168.171.225 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4012ms
+rtt min/avg/max/mdev = 3.234/5.658/8.085/1.921 ms
+```
+You can also execute the `ifconfig` command.
+```
+eth0      Link encap:Ethernet  HWaddr 08:00:27:20:c5:44
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe20:c544/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:28521 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:13092 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:23312504 (23.3 MB)  TX bytes:934486 (934.4 KB)
+
+eth1      Link encap:Ethernet  HWaddr 08:00:27:a9:ef:61
+          inet6 addr: fe80::a00:27ff:fea9:ef61/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:992 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:413 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:329947 (329.9 KB)  TX bytes:126740 (126.7 KB)
+
+eth2      Link encap:Ethernet  HWaddr 08:00:27:3e:dc:0f
+          inet addr:192.168.173.1  Bcast:0.0.0.0  Mask:255.255.255.252
+          inet6 addr: fe80::a00:27ff:fe3e:dc0f/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1218 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:1285 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:190092 (190.0 KB)  TX bytes:202051 (202.0 KB)
+
+eth1.170  Link encap:Ethernet  HWaddr 08:00:27:a9:ef:61
+          inet addr:192.168.170.254  Bcast:0.0.0.0  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fea9:ef61/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:309 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:101352 (101.3 KB)  TX bytes:648 (648.0 B)
+
+eth1.171  Link encap:Ethernet  HWaddr 08:00:27:a9:ef:61
+          inet addr:192.168.171.254  Bcast:0.0.0.0  Mask:255.255.255.224
+          inet6 addr: fe80::a00:27ff:fea9:ef61/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:348 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:43 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:104827 (104.8 KB)  TX bytes:4304 (4.3 KB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+```      
+ ### Router-2
+As well as `router-1` log into the router and ping another device to look if it's working.
+
+You can also execute the `ifconfig` command.
+```
+eth0      Link encap:Ethernet  HWaddr 08:00:27:20:c5:44
+          inet addr:10.0.2.15  Bcast:10.0.2.255  Mask:255.255.255.0
+          inet6 addr: fe80::a00:27ff:fe20:c544/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:25042 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:9539 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:23119005 (23.1 MB)  TX bytes:712269 (712.2 KB)
+
+eth1      Link encap:Ethernet  HWaddr 08:00:27:60:7a:b6
+          inet addr:192.168.172.230  Bcast:0.0.0.0  Mask:255.255.255.252
+          inet6 addr: fe80::a00:27ff:fe60:7ab6/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:352 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:413 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:119050 (119.0 KB)  TX bytes:136749 (136.7 KB)
+
+eth2      Link encap:Ethernet  HWaddr 08:00:27:44:c8:3e
+          inet addr:192.168.173.2  Bcast:0.0.0.0  Mask:255.255.255.252
+          inet6 addr: fe80::a00:27ff:fe44:c83e/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1374 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:1368 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:215353 (215.3 KB)  TX bytes:211188 (211.1 KB)
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+```
 
 # Network Map
   All the device of our Network can be reach using the broadcast address 192.168.168.000 and the subnet mask is 255.255.248.000.
