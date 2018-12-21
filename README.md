@@ -331,13 +331,13 @@ lo        Link encap:Local Loopback
           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
 ```
  ### Host-1-a
- Check if `host-1-a` is working by logging into the router and pinging another device.
+ Check if `host-1-a` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.
 
  ### Host-1-b
- Check if `host-1-b` is working by logging into the router and pinging another device.
+ Check if `host-1-b` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.
 
  ### Host-2-c
- Check if `host-1-b` is working by logging into the router and pinging another device.<br>
+ Check if `host-1-b` is working by logging into the router and pinging another device. You can also execute the `ifconfig` command for controlling network interface.<br>
  In this host we installed a docker container. You can see information about it thank to the command
  ```
  docker ps -a
