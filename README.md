@@ -409,8 +409,7 @@ docker run --name docker-nginx -p 80:80 -d -v ~/docker-nginx/html:/usr/share/ngi
 <a name="Display"></a>
 ## Display the website
  - Install Virtualbox and Vagrant
- - Clone this repository
-`git clone https://github.com/mattybass/dncs-lab`
+ - Clone this repository `git clone` https://github.com/mattybass/dncs-lab
  - You should be able to launch the lab from within the cloned repo folder.
 ```
 cd dncs-lab
