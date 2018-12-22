@@ -3,7 +3,6 @@
 # Table of contents
 - [ Who-we-are ](#Collaborators)
 - [ Assignment ](#Assignment)
-- [ Requirements ](#Requirements)
 - [ Network Map ](#Map)
 - [ Description of subnets ](#Subnets)
   - [ Subnet A ](#A)
@@ -18,6 +17,7 @@
     - [ Router 2 ](#r2-c)    
     - [ Host 2-c ](#h2c-c)
 - [ How-to ](#how)
+  - [ Requirements ](#Requirements)
   - [ Display the website ](#display)
   - [ Test the network ](#test)
     - [ Router 1 ](#r1-h)
@@ -42,14 +42,6 @@ more hosts than the one described in the `vagrantfile`):
 - Up to 130 hosts in the same subnet of `host-1-a`
 - Up to 25 hosts in the same subnet of `host-1-b`
 - Consume as few IP addresses as possible
-
-<a name="Requirements"></a>
-# Requirements
- - 10GB disk storage
- - 2GB free RAM
- - Virtualbox
- - Vagrant (https://www.vagrantup.com)
- - Internet
 
 <a name="Map"></a>
 # Network Map
@@ -406,6 +398,13 @@ docker run --name docker-nginx -p 80:80 -d -v ~/docker-nginx/html:/usr/share/ngi
 ```
 <a name="How"></a>
 # How-to
+<a name="Requirements"></a>
+## Requirements
+ - 10GB disk storage
+ - 2GB free RAM
+ - Virtualbox
+ - Vagrant (https://www.vagrantup.com)
+ - Internet
 <a name="Display"></a>
 ## Display the website
  - Install Virtualbox and Vagrant
