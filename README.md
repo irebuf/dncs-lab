@@ -330,8 +330,11 @@ The `router-2` has on port eth2 the IP 192.168.173.2. This is the last free addr
 
 <a name="C"></a>
 ## Subnet C
-<a name="r2-c"></a>
+We'll call Subnet C the part of the Network that link router-2 to host-2-c. Using this link and the previous ones we can satisfy the request to link host-1-a and host-1-b to host-2-c.
 
+This subnet doesn't need serveral IP addresses, so we opt to use only 2 bits for the hosts and the other 30 for the net. We need all the 4 (2^2) IP address. The first, with the last two bits at zero, is for the address space and it's 192.168.172.228. We decided to use the second one 192.168.172.229 for port eth1 of host-2-c and the third one for the router-2, it's 192.168.172.230 on port eth1. So we left the last one, with two one at the end, for the broadcast address (192.168.172.231).
+
+<a name="r2-c"></a>
 ### Router-2
 In the Subnet B we have already explain the `router-2` codes. There we talked about OSPF protocol in depth. Now we well explain the code we use in order to set up the Subnet C.
 ```
