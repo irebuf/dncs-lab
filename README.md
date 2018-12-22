@@ -13,7 +13,7 @@
   - [ Subnet B ](#B)
     - [ Router 1 ](#r1-b)
     - [ Router 2 ](#r2-b)   
-  - [ Subnet C ](#B)
+  - [ Subnet C ](#C)
     - [ Router 2 ](#r2-c)    
     - [ Host 2-c ](#h2c-c)
 - [ How-to ](#how)
@@ -28,8 +28,8 @@
     - [ Host 2-c ](#h2c-h)
 <a name="Collaborators"></a>
 # Who-we-are
-- Daniele Mattedi, "Laurea in Ingegneria dell'Informazione e delle Comunicazioni", III year
-- Irene Buffa, "Laurea in Ingegneria dell'Informazione e delle Comunicazioni", III year
+- <Daniele Mattedi>, "Laurea in Ingegneria dell'Informazione e delle Comunicazioni", III year
+- <Irene Buffa>, "Laurea in Ingegneria dell'Informazione e delle Comunicazioni", III year
 <a name="Assignment"></a>
 # Assigment
 Based the `Vagrantfile` and the provisioning scripts available at:
@@ -45,8 +45,8 @@ more hosts than the one described in the `vagrantfile`):
 
 <a name="Map"></a>
 # Network Map
-All the device of our Network can be reach using the broadcast address 192.168.168.000 and the subnet mask is 255.255.248.000.
- The Network can also be divide in three Subnetwork. 
+All the device of our Network can be reached using the broadcast address 192.168.168.000; the subnet mask is 255.255.248.000.
+The Network can also be divide in three Subnetwork. 
 
   
 
@@ -109,7 +109,7 @@ The VLAN that links `router-1` to `host-1-a` has 24 bit reserved and only 8 bit 
 The request for router-1 was to have 130 possibily hosts to use. Using 7 bits for host we would have had only 128 different IPs addresses: they were not enought for our configuration. So we opt to use 8 bit (254 possibile hosts to use).
 
 On the other side the VLAN that links `router-1` to `host-1-b` has 27 bit reserved for the Net and only 5 for the hosts. In this case we need at least 25 different IP addresses and the 2^5 (32) addresses are enough for IP address space, broadcast address and hosts.
-The first IP has to be used for IP address space and in our configuration is 192.168.171.224; the second is 192.168.171.225 and we decided to use it for port eth1 of `host-1-b`. We used the second-last 192.168.171.254 for eth1.171 of `router-1` and in the end we have to use the last IP 192.168.171.255, with all the last 5 bits at 1, for broadcast addess.
+The first IP has to be used for IP address space and in our configuration is 192.168.171.224; the second is 192.168.171.225 and we decided to use it for port eth1 of `host-1-b`. We used the second-last 192.168.171.254 for eth1.171 of `router-1` and in the end we have to use the last IP 192.168.171.255 ( all the last 5 bits value is 1) for broadcast addess.
 
 <a name="r1-a"></a>
 ### Router-1
@@ -147,10 +147,10 @@ Now we can use these lines to 'switch on' the two ports.
 #### IP
 Router-1 has two different IP address on port eth1.
 
-From the general IP address 192.168.168.0 we decide to use the configuration 192.168.170.0/24 for the first VLAN and the configuration 192.168.171.224/27 for the second VLAN.
+From the general IP address 192.168.168.0 we decided to use the configuration 192.168.170.0/24 for the first VLAN and the configuration 192.168.171.224/27 for the second VLAN.
 
-We have IP 192.168.170.254 on eth1.170 on the port that link router with host-1-a. This IP is /24 so we can have an IP for all the 130 possible hosts in the net and we can reserved 2 host for the system.<br>
-For eth1.171 we have the IP 192.168.171.254, this address is /27 so we have 32 IP, but only 30 free, for the hosts and they're enough for our system. 
+We have IP 192.168.170.254 on eth1.170 on the port that link router with host-1-a. This IP is /24 so we can have an IP for all the 130 possible hosts in the net and we can reserve 2 host for the system.<br>
+For eth1.171 we have the IP 192.168.171.254. This address is /27, so we have 32 IP: only 30 addeesses are free; we use them for the hosts and they're enough for our system. 
 
 
 <a name="h1a-a"></a>
@@ -199,7 +199,7 @@ ip route add 192.168.168.0/21 via 192.168.171.254
 With this line we add the route that all packets with an address of configuration 192.168.168.0/21 have to do to reach the right destination. All these packets have to travel through port eth1.171 of router that has IP 192.168.171.254.
 
 #### IP
-Host-1-b has an IP address at port eth1. It's 192.168.171.225. With this address and the port eth1 the host can send packets to all the devices with an IP between 192.168.168.0 and 192.168.175.255 and also recived from these devices. All the packets have to pass through port eth1.171 of router-1 at IP address 192.168.171.254.
+Host-1-b has an IP address at port eth1. It's 192.168.171.225. With this address and the port eth1 the host might send packets to the devices with an IP between 192.168.168.0 and 192.168.175.255 and also recived from these devices. All the packets have to pass through port eth1.171 of router-1 at IP address 192.168.171.254.
 <a name="s-a"></a>
 ### Switch
 We add these lines in the file `switch.sh` to link switch with host-1-a, host-1-b and router-1:
