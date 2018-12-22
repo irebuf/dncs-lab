@@ -490,7 +490,7 @@ vagrant ssh router-1
 ```
 sudo su
 ```
-In order to look if `router-1` is working you can ping (use the command `ping` followed by the IP-address of the host/router you want to check.
+In order to look if `router-1` is working you can ping (use the command `ping` followed by the IP-address of the host/router you want to check) any net device.
 
 For example pinging the `host-1-b`
 ```
