@@ -325,7 +325,7 @@ vtysh -c 'configure terminal' -c 'router ospf' -c 'redistribute connected'  -c '
 We use these lines to configure the FRR for link correctly the two router and consequently the all the Network.
 
 #### IP
-The router-2 has on port eth2 the IP 192.168.173.2. This is the last free address; this Subnet has 30 bits used for the net and only the last 2 for hosts. With two bits we have 4 different address, two of them are used for address space and broadcast and the other two are used for the routers. 
+The `router-2` has on port eth2 the IP 192.168.173.2. This is the last free address; this Subnet has 30 bits used for the net and only the last 2 for hosts. With two bits we have 4 different address, two of them are used for address space and broadcast and the other two are used for the routers. 
 
 
 <a name="C"></a>
@@ -333,14 +333,16 @@ The router-2 has on port eth2 the IP 192.168.173.2. This is the last free addres
 <a name="r2-c"></a>
 
 ### Router-2
-In the Subnet B we have already explain the `router-2` codes. We talk about OSPF protocol in depth. Now we well explain the code we use in order to set up the Subnet C.
+In the Subnet B we have already explain the `router-2` codes. There we talked about OSPF protocol in depth. Now we well explain the code we use in order to set up the Subnet C.
 ```
-ip link set dev eth2 up
-ip add add 192.168.173.2/30 dev eth2
-ip link set eth2 up
+ip link set dev eth1 up
+ip add add 192.168.172.230/30 dev eth1
+ip link set eth1 up
 ```
-Initially we bring eht2 up. Then we assign an IPv4 address to the interface eht2. The third line activate the link.
+Initially we bring eht1 up. Then we assign an IPv4 address to the interface eht1. The third line activate the link.
 
+#### IP
+The `router-2` has on port eth1 the IP 192.168.172.230. This Subnet has 30 bits used for the net; as a result only the last 2 bits are dedicated to the host (2 addresses are taken from address space and broadcast).
 
 <a name="h2c-c"></a>
 ### Host-2-c 
