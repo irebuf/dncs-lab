@@ -233,13 +233,13 @@ These lines need to create and switch on the three port eth1, eth2 and eth3 that
 
 <a name="B"></a>
 ## Subnet B
-We'll call Subnet B the part of our Network that connect the two routers, router-1 and router-2. This link is necessary to connect the hosts in the Subnet A to the hosts in the Subnet C, so all the devices of our Net can send and recived packets for all the other devices.
+We'll call Subnet B the part of our Network that connect the two routers, `router-1` and `router-2`. This link is necessary to connect the hosts in the Subnet A to the hosts in the Subnet C, so all the devices of our Net can send and recived packets from all the other devices.
 
 This link has only to connect the two routers, so we decided to use as less bit for hosts as possible. We can't reserved only 1 bit, two addresses to it, because we need 2 address for the routers, one for the address space and one for the broadcast. So we have to use at least 2 bits for hosts' address, and we decided to use exactly 2 bit for have 4 IP address. <br>
-We use 192.168.173.0 for the address space, for the broadcast address we have to use the IP with the last 2 bits at one and in our configuration it's 192.168.173.3. We add IP 192.168.173.1 at eth2 of router-1 and the last IP 192.168.173.2 is the address of eth2 of router-2.
+We use 192.168.173.0 for the address space, for the broadcast address we have to use the IP with the last 2 bits at one and in our configuration it's 192.168.173.3. We add IP 192.168.173.1 at eth2 of `router-1` and the last IP 192.168.173.2 is the address of eth2 of `router-2`.
 <a name="r1-b"></a>
 ### Router-1
-We add these lines to the file router-1.sh to link the two routers:
+We add these lines to the file `router-1.sh` to link the two routers:
 ```
 apt-get install -y frr --assume-yes --force-yes
 ip link set dev eth2 up
@@ -289,7 +289,7 @@ These lines are used to configure in the right way the FRR and allow to link cor
 Router-1 has an IP on port eth2 and it's 192.168.173.1. This IP is allowed from the configuration of our network, infact it's inside the address space 192.168.168.0/21. We can't use the first IP address of the Subnet (192.168.173.0) because it's reserved to address space.
 
 ### Router-2
-We add the following lines to router-2.sh file that are necessary to link the two router:
+We add the following lines to `router-2.sh` file that are necessary to link the two router:
 ```
 apt-get install -y frr --assume-yes --force-yes
 ip link set dev eth2 up
@@ -333,9 +333,9 @@ The `router-2` has on port eth2 the IP 192.168.173.2. This is the last free addr
 
 <a name="C"></a>
 ## Subnet C
-We'll call Subnet C the part of the Network that link router-2 to host-2-c. Using this link and the previous ones we can satisfy the request to link host-1-a and host-1-b to host-2-c.
+We'll call Subnet C the part of the Network that link `router-2` to `host-2-c`. Using this link and the previous ones we can satisfy the request to link host-1-a and host-1-b to host-2-c.
 
-This subnet doesn't need serveral IP addresses, so we opt to use only 2 bits for the hosts and the other 30 for the net. We need all the 4 (2^2) IP address. The first, with the last two bits at zero, is for the address space and it's 192.168.172.228. We decided to use the second one 192.168.172.229 for port eth1 of host-2-c and the third one for the router-2, it's 192.168.172.230 on port eth1. So we left the last one, with two one at the end, for the broadcast address (192.168.172.231).
+This subnet doesn't need serveral IP addresses, so we opt to use only 2 bits for the hosts and the other 30 for the net. We need all the 4 (2^2) IP address. The first, with the last two bits at zero, is for the address space and it's 192.168.172.228. We decided to use the second one 192.168.172.229 for port eth1 of `host-2-c` and the third one for the `router-2`, it's 192.168.172.230 on port eth1. So we left the last one, with two one at the end, for the broadcast address (192.168.172.231).
 
 <a name="r2-c"></a>
 ### Router-2
@@ -366,9 +366,10 @@ We use this line to add an address to the port eth1; now we can use this port to
 ```
 ip route add 192.168.168.0/21 via 192.168.172.230
 ```
-This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-2 at address 192.168.172.230.
+This line is used to add the route that a packet has to do. It say that all the packets with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-2 at address 192.168.172.230.
 #### IP
-Host-2-c has an IP address on port eth1 linked to router-2. It's 192.168.172.229 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 4 hosts). 
+Host-2-c has an IP address on port eth1 linked to router-2. It's 192.168.172.229 and it's the first address free in the configuration of this subnet. In this Subnet we used all the possible IP adresses: two for the system, one for the `router-2` and this one for `host-2-c`.
+
 #### Docker
 We need to set up the Docker repository.  As a precaution, we decided to uninstall older versions of Docker when they were present.
 ```
@@ -438,7 +439,7 @@ host-1-a                  running (virtualbox)
 host-1-b                  running (virtualbox)
 host-2-c                  running (virtualbox)
  ```
-The request is to reach a website hosted on `host-2-c` from any host configured and attached to `router-1` (`host-1-a` and `host-1-c`). So, once all the VMs are running you can log into `host-1-a` and `host-1-b` (you have to duplicate the terminal or to log into the hosts in two different times: if you want to exit from an host type `exit`) using these commands (in two different windows):
+The request is to reach a website hosted on `host-2-c` from any host configured and attached to `router-1` (`host-1-a` and `host-1-b`). So, once all the VMs are running you can log into `host-1-a` and `host-1-b` (you have to duplicate the terminal or to log into the hosts in two different times: if you want to exit from an host type `exit`) using these commands (in two different windows):
 ```
 vagrant ssh host-1-a
 ```
