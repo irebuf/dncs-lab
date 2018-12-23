@@ -108,8 +108,8 @@ Subnet A is  the part of the network in which we can find `router-1`, `switch`, 
 The VLAN that links `router-1` to `host-1-a` has 24 bit reserved and only 8 bit dedicated to the hosts but its enough for our configuration. Even if there are 2^8 (256) different IP addresses, they can't all be used. 2 IPs are reserved: the first one (192.168.170.0) is for IP address space (it has all the last 8 bit at zero) and the last one (192.168.170.255) is the broadcast address (it has all the last 8 bits at value 1). We decided to use the first free IP address for the port eth1 of the host-1-a (192.168.170.1) and the last free for the port eth1.170 of the router (192.168.170.254).
 The request for router-1 was to have 130 possible hosts to use. By using 7 bits for host we would have had only 128 different IPs addresses: they were not enought for our configuration. So we decided to use 8 bit (254 possibile hosts to use).
 
-On the other side the VLAN that links `router-1` to `host-1-b` has 27 bits reserved for the Net and only 5 for the hosts. In this case at least 25 different IP addresses are needed and the 2^5 (32) addresses are enough for IP address space, broadcast address and hosts.
-The first IP has to be used for IP address space and in our configuration is 192.168.171.224; the second is 192.168.171.225 and we decided to use it for port eth1 of `host-1-b`. We used 192.168.171.254 for eth1.171 of `router-1` and lastly we chose to use the last IP 192.168.171.255 ( all the last 5 bits value is 1) for broadcast addess.
+On the other side the VLAN that links `router-1` to `host-1-b` has 27 bits reserved for the Net and only 5 for the hosts. In this case at least 25 different IP addresses are needed and the 2^5 (32) addresses are enough for IP address space, broadcast address and hosts' addresses.
+The first IP has to be used for IP address space and in our configuration is 192.168.171.224; the second to last adress is 192.168.171.225 and we decided to use it for port eth1 of `host-1-b`. We also assigned to eth1.171 of `router-1` address 192.168.171.254  and lastly we chose to use the last IP 192.168.171.255 ( all the last 5 bits value is 1) for broadcast addess.
 
 <a name="r1-a"></a>
 ### Router-1
@@ -126,31 +126,31 @@ ip link set eth1.171 up
 ```
 ip link set dev eth1 up
 ```
-We need this line to create the port eth1 that is linked to the switch.
+Thanks to this line the port eth1 is created and also linked to the switch.
 ```
 ip link add link eth1 name eth1.170 type vlan id 170
 ip link add link eth1 name eth1.171 type vlan id 171
 ```
-We use these lines to split the port eth1 in two ports (eth1.170 and eth1.171): so VLANs virtually split the link. We call the two VLANs with the third 8 bits of IP configuration of the link.
+The port eth1 is splitted in two ports (eth1.170 and eth1.171): so VLANs virtually split the link. We call the two VLANs with the third 8 bits of IP configuration of the link.
 ```
 ip add add 192.168.170.254/24 dev eth1.170
 ip add add 192.168.171.254/27 dev eth1.171
 ```
-With this lines we add the address to the two virtual ports.
+The address is added to the two virtual ports.
 ```
 ip link set eth1.170 up
 ip link set eth1.171 up
 ```
-Now we can use these lines to 'switch on' the two ports.
+The two ports are switched on.
 
 
 #### IP
 Router-1 has two different IP address on port eth1.
 
-From the general IP address 192.168.168.0 we decided to use the configuration 192.168.170.0/24 for the first VLAN and the configuration 192.168.171.224/27 for the second VLAN.
+From the general IP address 192.168.168.0 we decided to use configuration 192.168.170.0/24 for the first VLAN the configuration 192.168.171.224/27 for the second VLAN.
 
-We have IP 192.168.170.254 on eth1.170 on the port that link router with host-1-a. This IP is /24 so we can have an IP for all the 130 possible hosts in the net and we can reserve 2 host for the system.<br>
-For eth1.171 we have the IP 192.168.171.254. This address is /27, so we have 32 IP: only 30 addeesses are free; we use them for the hosts and they're enough for our system. 
+Eth1.170 has IP 192.168.170.254 on the port that link router with host-1-a. That IP is /24 so there are enough IPs for all the 130 possible hosts in the net; 2 host can be reserved for the system.<br>
+For eth1.171 we have the IP 192.168.171.254. This address is /27, so we have 32 IP: only 30 addesses are free; we use them for the hosts and they're enough for our system. 
 
 
 <a name="h1a-a"></a>
@@ -164,34 +164,34 @@ ip route add 192.168.168.0/21 via 192.168.170.254
 ```
 ip link set dev eth1 up
 ```
-We add this line to create the port eth1 in the host-1-a.
+Port eth1 is created in the host-1-a.
 ```
 ip add add 192.168.170.1/24 dev eth1
 ```
-We use this line to add an address to the port eth1; now we can use this port to link the host with other device to send and recive packets.
+Address 192.168.170.1 is added to the port eth1; now the port can be used to link the host with other devices to send and recive packets.
 ```
 ip route add 192.168.168.0/21 via 192.168.170.254
 ```
-This line is used to add the route that a packet has to do. It say that all the packet with address 192.168.168.0/21, so all the packets that have the same 21 bits of this address, have to be send on the link with router-1 to the port with address 192.168.170.254.
+This line is used to add the route that a packet has to do. All the packet with address 192.168.168.0/21 (all the packets that have the same 21 bits of this address) have to be sent on the link to `router-1` (to the port with address 192.168.170.254).
 
 #### IP
-  Host-1-a has an IP address on port eth1 linked to router-1. It's 192.168.170.1 and it's the first address free in the configuration of the first VLAN. We can use all the other address except the two of the system and the router's address for any other hosts (until 252 hosts). 
+`Host-1-a` has an IP address on port eth1 linked to router-1 (192.168.170.1), which is the first address free in the configuration of the first VLAN. All hosts (252 hosts at the most), except the two of the system and the router's address, can use all the other addresses. 
 <a name="h1b-a"></a>
 ### Host-1-b
-We add the following lines in file `docker-1b.sh` to link the host-1-b to the Network:
+We add the following lines in file `docker-1b.sh` to link `host-1-b` to the Network:
   ```
 ip link set dev eth1 up
 ip add add 192.168.171.225/27 dev eth1
 ip route add 192.168.168.0/21 via 192.168.171.254
-   ```
+```
 ```  
 ip link set dev eth1 up
 ```
-We use this line to create the port eth1 of host-1-b. It's necessary to link the host with the Net.
+Port eth1 of `host-1-b` is created: now the host can be linked to the Net.
 ```
 ip add add 192.168.171.225/27 dev eth1
 ```
-We add, with this line, the IP address 192.168.171.225 at host-1-b's port eth1.
+IP address 192.168.171.225 is added to `host-1-b`'s port eth1.
 
 ```
 ip route add 192.168.168.0/21 via 192.168.171.254
@@ -199,11 +199,11 @@ ip route add 192.168.168.0/21 via 192.168.171.254
 With this line we add the route that all packets with an address of configuration 192.168.168.0/21 have to do to reach the right destination. All these packets have to travel through port eth1.171 of router that has IP 192.168.171.254.
 
 #### IP
-Host-1-b has an IP address at port eth1. It's 192.168.171.225. With this address and the port eth1 the host might send packets to the devices with an IP between 192.168.168.0 and 192.168.175.255 and also recived from these devices. All the packets have to pass through port eth1.171 of router-1 at IP address 192.168.171.254.
+Host-1-b has an IP address at port eth1. It's 192.168.171.225. With this address and the port eth1 the host might send packets to the devices with an IP between 192.168.168.0 and 192.168.175.255 and also recived from these devices. All the packets have to pass through port eth1.171 of `router-1` at IP address 192.168.171.254.
 <a name="s-a"></a>
 ### Switch
-We add these lines in the file `switch.sh` to link switch with host-1-a, host-1-b and router-1:
-  ```
+We add these lines in the file `switch.sh` to link switch with `host-1-a`, `host-1-b` and `router-1`:
+```
 ovs-vsctl add-br switch
 ovs-vsctl add-port switch eth1
 ovs-vsctl add-port switch eth2 tag=170
@@ -223,20 +223,20 @@ ovs-vsctl add-port switch eth1
 ovs-vsctl add-port switch eth2 tag=170
 ovs-vsctl add-port switch eth3 tag=171
 ```
-These lines add the port to the switch and give a different name to all the port. The port eth1 has no tag so it's a trunk port instead the other two ports, eth2 and eth3, that are tagged with rispectively 170 and 171. These tags are necessary to divided the traffic from router-1, that came in in eth1, to host-1-a's VLAN in eth2 or to host-1-b's VLAN through eth3. The switch read the tag that router assigned to each packet before send it in eth1.
+Three ports are added to the switch.  Port eth1 has no tag so it's a trunk port, instead of the other two ports (eth2 is tagged as value 170, eth3 is tagged as value 171). Tags are necessary to divide traffic from `router-1`, that came in eth1, to `host-1-a`'s VLAN in eth2 or to `host-1-b`'s VLAN through eth3. The switch reads the tag that router assigned to each packet before send it to eth1.
 ```
 ip link set dev eth1 up
 ip link set dev eth2 up
 ip link set dev eth3 up
 ```
-These lines need to create and switch on the three port eth1, eth2 and eth3 that connect switch with the other devices. Now we can send packets thought switch.
+The three port eth1, eth2 and eth3, that connect switch with the other devices, are created and are swiched on. Now packets can be sent through switch.
 
 <a name="B"></a>
 ## Subnet B
-We'll call Subnet B the part of our Network that connect the two routers, `router-1` and `router-2`. This link is necessary to connect the hosts in the Subnet A to the hosts in the Subnet C, so all the devices of our Net can send and recived packets from all the other devices.
+We'll call Subnet B the part of our Network that connects the two routers (`router-1` and `router-2`). This link is necessary to connect hosts in Subnet A to hosts in  Subnet C, so all the devices of our Net can send and recived packets from all the other devices.
 
-This link has only to connect the two routers, so we decided to use as less bit for hosts as possible. We can't reserved only 1 bit, two addresses to it, because we need 2 address for the routers, one for the address space and one for the broadcast. So we have to use at least 2 bits for hosts' address, and we decided to use exactly 2 bit for have 4 IP address. <br>
-We use 192.168.173.0 for the address space, for the broadcast address we have to use the IP with the last 2 bits at one and in our configuration it's 192.168.173.3. We add IP 192.168.173.1 at eth2 of `router-1` and the last IP 192.168.173.2 is the address of eth2 of `router-2`.
+This link only connects the two routers, so we decided to use as less bit for hosts as possible. 2 addresses are needed by the router, so we can't use only 1 bit: in fact two spaces are taken by the address space and broadcast address. So we have to use at least 2 bits for hosts' address, and we decided to use exactly 2 bit in order to have 4 IP addresses. <br>
+192.168.173.0 is allocated to the address space, while 192.168.173.3 to the broadcast address (we have to use the IP with the last 2 bits to value 1). We added IP 192.168.173.1 to eth2 of `router-1`; the last IP 192.168.173.2 has become the address of eth2 of `router-2`.
 <a name="r1-b"></a>
 ### Router-1
 We add these lines to the file `router-1.sh` to link the two routers:
@@ -260,12 +260,12 @@ This line is necessary to install in the router the FRRouting protocol that allo
 ```
 ip link set dev eth2 up
 ```
-We use this line to create the port eth2 in the router-1. For each port the router is link to a different Subnet.
+We use this line to create  port eth2 in  `router-1`. Each port is a link between the router and a different Subnet.
 
 ```
 ip add add 192.168.173.1/30 dev eth2
 ```
-This line is used to add an IP address to the new port. The port eth2 has the IP 192.168.173.1.
+This line is used to add an IP address to the new port. The port eth2 has IP 192.168.173.1.
 
 ```
 ip link set eth2 up
@@ -286,7 +286,7 @@ vtysh -c 'configure terminal' -c 'router ospf' -c 'redistribute connected'  -c '
 These lines are used to configure in the right way the FRR and allow to link correctly the two router and consequently the different Subnet.
 
 #### IP
-Router-1 has an IP on port eth2 and it's 192.168.173.1. This IP is allowed from the configuration of our network, infact it's inside the address space 192.168.168.0/21. We can't use the first IP address of the Subnet (192.168.173.0) because it's reserved to address space.
+`Router-1` has an IP on port eth2 and it's 192.168.173.1. The configuration of our network allows to use this IP, because that address is inside the address space 192.168.168.0/21. We can't use the first IP address of the Subnet (192.168.173.0) because it was reserved to address space.
 
 ### Router-2
 We add the following lines to `router-2.sh` file that are necessary to link the two router:
@@ -328,18 +328,18 @@ vtysh -c 'configure terminal' -c 'router ospf' -c 'redistribute connected'  -c '
 We use these lines to configure the FRR for link correctly the two router and consequently the all the Network.
 
 #### IP
-The `router-2` has on port eth2 the IP 192.168.173.2. This is the last free address; this Subnet has 30 bits used for the net and only the last 2 for hosts. With two bits we have 4 different address, two of them are used for address space and broadcast and the other two are used for the routers. 
+The `router-2` has on port eth2 the IP 192.168.173.2. This is the last free address; this Subnet has 30 bits used for the net and only the last 2 for hosts. Two bits fit to 4 different address: two of them are used for address space and broadcast and the other two are used for the routers. 
 
 
 <a name="C"></a>
 ## Subnet C
-We'll call Subnet C the part of the Network that link `router-2` to `host-2-c`. Using this link and the previous ones we can satisfy the request to link host-1-a and host-1-b to host-2-c.
+Subnet C is the part of the Network that links `router-2` to `host-2-c`. Using this link and the previous ones we can satisfy the request to link `host-1-a` and `host-1-b` to `host-2-c`.
 
-This subnet doesn't need serveral IP addresses, so we opt to use only 2 bits for the hosts and the other 30 for the net. We need all the 4 (2^2) IP address. The first, with the last two bits at zero, is for the address space and it's 192.168.172.228. We decided to use the second one 192.168.172.229 for port eth1 of `host-2-c` and the third one for the `router-2`, it's 192.168.172.230 on port eth1. So we left the last one, with two one at the end, for the broadcast address (192.168.172.231).
+This subnet doesn't need serveral IP addresses, so we decided to use only 2 bits for the hosts and the other 30 for the net. We need all the 4 (2^2) IP address. The first (192.168.172.228), with the last two bits at value 0, is for the address space. Then we assigned the second one (192.168.172.229) to port eth1 of `host-2-c` and the third one (192.168.172.230) to port eth1 of `router-2`. So broadcast address (it must ends with two value 1) is 192.168.172.231.
 
 <a name="r2-c"></a>
 ### Router-2
-In the Subnet B we have already explain the `router-2` codes. There we talked about OSPF protocol in depth. Now we well explain the code we use in order to set up the Subnet C.
+In the Subnet B we have already explain the `router-2` codes. There we talked about OSPF protocol in depth. Now we well explain the code we use in order to set up Subnet C.
 ```
 ip link set dev eth1 up
 ip add add 192.168.172.230/30 dev eth1
