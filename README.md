@@ -335,7 +335,7 @@ The `router-2` has on port eth2 the IP 192.168.173.2. This is the last free addr
 ## Subnet C
 Subnet C is the part of the Network that links `router-2` to `host-2-c`. Using this link and the previous ones we can satisfy the request to link `host-1-a` and `host-1-b` to `host-2-c`.
 
-This subnet doesn't need serveral IP addresses, so we decided to use only 2 bits for the hosts and the other 30 for the net. We need all the 4 (2^2) IP address. The first (192.168.172.228), with the last two bits at value 0, is for the address space. Then we assigned the second one (192.168.172.229) to port eth1 of `host-2-c` and the third one (192.168.172.230) to port eth1 of `router-2`. So broadcast address (it must ends with two value 1) is 192.168.172.231.
+This subnet doesn't need serveral IP addresses, so we decided to use only 2 bits for the hosts and the other 30 for the net. We need all the 4 (2^2) IP address. The first (192.168.172.228), with the last two bits at value 0, is for the address space. Then we assigned the second one (192.168.172.229) to port eth1 of `host-2-c` and the third one (192.168.172.230) to port eth1 of `router-2`. So broadcast address (it must ends with two bits 1) is 192.168.172.231.
 
 <a name="r2-c"></a>
 ### Router-2
