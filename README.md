@@ -489,16 +489,16 @@ This is the htlm code of the website hosted on `host-2-c`.
 <a name="Test"></a>
 ## Test the network
 #### Addresses to ping
-| Ip Address | Hosting |
-|------------|---------|
-|192.168.170.1 | Host-1-a |
-|192.168.171.225 | Host-1-b |
-|192.168.170.254 | Router-1 eth1.170 |
-|192.168.171.254 | Router-1 eth1.171 |
-|192.168.173.1 | Router-1 eth2 |
-|192.168.173.2 | Router-2 eth2 |
-|192.168.172.230 | Router-2 eth1 |
-|192.168.172.229 | Host-2-c |
+| Ip Address | Host | Port |
+|------------|------|------|
+|192.168.170.1 | Host-1-a | eth1 |
+|192.168.171.225 | Host-1-b | eth1 |
+|192.168.170.254 | Router-1 | eth1.170 |
+|192.168.171.254 | Router-1 | eth1.171 |
+|192.168.173.1 | Router-1 | eth2 |
+|192.168.173.2 | Router-2 | eth2 |
+|192.168.172.230 | Router-2 | eth1 |
+|192.168.172.229 | Host-2-c | eth1 |
 
 <a name="r1-h"></a>
  ### Router-1
