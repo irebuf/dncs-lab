@@ -490,7 +490,7 @@ This is the htlm code of the website hosted on `host-2-c`.
 ## Test the network
 #### Addresses to ping
 | Ip Address | Host | Port |
-|------------|------|------|
+|:----------:|:----:|:----:|
 |192.168.170.1 | Host-1-a | eth1 |
 |192.168.171.225 | Host-1-b | eth1 |
 |192.168.170.254 | Router-1 | eth1.170 |
