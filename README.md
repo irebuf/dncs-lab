@@ -28,8 +28,8 @@
     - [ Host 2-c ](#h2c-h)
 <a name="Collaborators"></a>
 # Who-we-are
-- <Daniele Mattedi>, "Laurea in Ingegneria dell'Informazione e delle Comunicazioni", III year
-- <Irene Buffa>, "Laurea in Ingegneria dell'Informazione e delle Comunicazioni", III year
+- Daniele Mattedi, "Laurea in Ingegneria dell'Informazione e delle Comunicazioni", III year
+- Irene Buffa, "Laurea in Ingegneria dell'Informazione e delle Comunicazioni", III year
 <a name="Assignment"></a>
 # Assigment
 Based the `Vagrantfile` and the provisioning scripts available at:
@@ -488,6 +488,18 @@ The vagrant response is going to be:
 This is the htlm code of the website hosted on `host-2-c`.
 <a name="Test"></a>
 ## Test the network
+#### Addresses to ping
+| Ip Address | Hosting |
+|------------|---------|
+|192.168.170.1 | Host-1-a |
+|192.168.171.225 | Host-1-b |
+|192.168.170.254 | Router-1 eth1.170 |
+|192.168.171.254 | Router-1 eth1.171 |
+|192.168.173.1 | Router-1 eth2 |
+|192.168.173.2 | Router-2 eth2 |
+|192.168.172.230 | Router-2 eth1 |
+|192.168.172.229 | Host-2-c |
+
 <a name="r1-h"></a>
  ### Router-1
 Log into the router using 
@@ -745,14 +757,4 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 390e0079bb45        nginx               "nginx -g 'daemon of…"   4 hours ago         Up 4 hours          0.0.0.0:80->80/tcp   docker-nginx
  ```
 
-#### Addresses to ping
-| Ip Address | Hosting |
-|------------|---------|
-|192.168.170.1 | Host-1-a |
-|192.168.171.225 | Host-1-b |
-|192.168.170.254 | Router-1 eth1.170 |
-|192.168.171.254 | Router-1 eth1.171 |
-|192.168.173.1 | Router-1 eth2 |
-|192.168.173.2 | Router-2 eth2 |
-|192.168.172.230 | Router-2 eth1 |
-|192.168.172.229 | Host-2-c |
+
